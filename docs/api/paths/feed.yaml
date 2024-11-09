@@ -1,0 +1,38 @@
+swagger: "2.0"
+info:
+  title: Feed paths
+  version: 0.0.4
+paths:
+
+  /feed/preference:
+    post:
+      description: Create Feed Preference
+      summary: FeedPreference_POST
+      operationId: CreateFeedPreference
+      tags:
+        - feed
+      deprecated: false
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '../definitions/header.yaml#/parameters/XClientId'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "../requests/feed.yaml#/definitions/CreateFeedPreferenceRequest"
+      responses:
+        "201":
+          description: Create feed preference successfully.
+          schema:
+            $ref: "../responses/feed.yaml#/definitions/CreateFeedPreferenceResponse"
+        "400":
+          $ref: "../responses/error.yaml#/responses/ValidationErrorResponse"
+        "401":
+          $ref: "../responses/error.yaml#/responses/AuthUnauthorizedResponse"
+        "409":
+          $ref: "../responses/error.yaml#/responses/ConflictErrorResponse"
+        "500":
+          $ref: "../responses/error.yaml#/responses/InternalServerErrorResponse"

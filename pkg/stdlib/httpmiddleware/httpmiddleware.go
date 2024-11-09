@@ -188,6 +188,7 @@ func (mw *httpmw) JWTAuthMiddleware() gin.HandlerFunc {
 
 		c.Set(auth.ContextKeyJwtToken, tokenString)
 		c.Set(auth.ContextKeyClaims, claims)
+		c.Set(auth.ContextKeyUserID, claims.ID)
 		c.Set(auth.ContextKeyUserEmail, claims.Email)
 		c.Set(auth.ContextKeyUserName, claims.Name)
 

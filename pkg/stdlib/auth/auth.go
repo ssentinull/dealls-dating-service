@@ -38,6 +38,7 @@ type Auth interface {
 	ParseJWTToken(tokenstring string) (*JWTClaims, error)
 	ExtractJWTClaims(tokenstring string) (*JWTClaims, error)
 	ParseJWTTokenWithoutExpirationCheck(tokenstring string) (*JWTClaims, error)
+	GetID(c *gin.Context) int64
 	GetEmail(c *gin.Context) string
 	GetName(c *gin.Context) string
 	GetStaticToken() string
@@ -85,7 +86,7 @@ func (a *auth) GenerateJWTToken(user model.UserModel) (string, error) {
 	}
 
 	claims := JWTClaims{
-		ID:    user.ID,
+		ID:    user.Id,
 		Email: user.Email,
 		Name:  user.Name,
 		StandardClaims: jwt.StandardClaims{
@@ -156,8 +157,8 @@ func (a *auth) ParseJWTTokenWithoutExpirationCheck(tokenString string) (*JWTClai
 	return claims, err
 }
 
-func (a *auth) GetID(c *gin.Context) string {
-	return c.GetString(ContextKeyUserID)
+func (a *auth) GetID(c *gin.Context) int64 {
+	return c.GetInt64(ContextKeyUserID)
 }
 
 func (a *auth) GetName(c *gin.Context) string {

@@ -11,3 +11,5 @@ CREATE TABLE IF NOT EXISTS "users" (
     "updated_at" TIMESTAMP,
     "deleted_at" TIMESTAMP
 );
+
+CREATE INDEX users_email_idx ON users(email);

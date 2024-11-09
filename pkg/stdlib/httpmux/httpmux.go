@@ -46,12 +46,10 @@ func Init(efLogger logger.Logger, swagg swagger.Swagger, middleware httpmiddlewa
 	engine.GET(swagg.GetPath(), swagg.GetHandler())
 	engine.GET("/health", gin.WrapH(health.Handler()))
 
-	// NOTE: enable jwt middleware when needed
-	// engine.Use(middleware.JWTAuthMiddleware())
-
 	engine.Use(middleware.CORSMiddleware())
 	engine.Use(middleware.LoggerMiddleware())
 	engine.Use(middleware.MockApiMiddleware())
+
 	pprof.Register(engine)
 
 	return &mux{

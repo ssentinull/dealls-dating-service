@@ -18,6 +18,7 @@ func (u *userImpl) createUserSQL(ctx context.Context, tx *gorm.DB, p model.UserM
 
 	var result model.UserModel
 	if err := tx.WithContext(ctx).Omit(clause.Associations).Create(&p).Error; err != nil {
+		u.efLogger.Error(err)
 		return result, x.Wrap(err, libsql.SomethingWentWrongWithDB)
 	}
 
@@ -35,6 +36,7 @@ func (u *userImpl) getUserSQL(ctx context.Context, p model.GetUserParams) (model
 		Take(&result).
 		Error
 	if err != nil {
+		u.efLogger.Error(err)
 		return result, err
 	}
 

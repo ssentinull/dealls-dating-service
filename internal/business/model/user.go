@@ -11,7 +11,7 @@ import (
 
 type (
 	UserModel struct {
-		ID        int64
+		Id        int64
 		Email     string
 		Password  string
 		Name      string

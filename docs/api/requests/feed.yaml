@@ -1,0 +1,35 @@
+swagger: "2.0"
+info:
+  title: Feed request definitions
+  version: 0.0.4
+paths: {}
+definitions:
+
+  CreateFeedPreferenceRequest:
+    title: Create Feed Preference Request
+    type: object
+    properties:
+      gender:
+        $ref: '../definitions/enum.yaml#/definitions/Gender'
+        description: the Gender
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+      min_age:
+        description: the Minimum Age
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: integer
+      max_age:
+        description: the Maximum Age
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: integer
+      location:
+        $ref: '../definitions/enum.yaml#/definitions/Location'
+        description: the Location
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false

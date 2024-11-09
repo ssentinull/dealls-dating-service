@@ -69,9 +69,12 @@ func (r *rest) Serve() {
 		c.String(http.StatusNotFound, "not found")
 	})
 
-	apiV1 := route.Group("/v1/api")
+	apiV1 := route.Group("/api/v1")
 
 	authV1 := apiV1.Group("/auth")
 	authV1.POST("/signup", r.SignupUser)
 	authV1.POST("/login", r.LoginUser)
+
+	feedV1 := apiV1.Group("/feed").Use(r.mw.JWTAuthMiddleware())
+	feedV1.POST("/preference", r.CreatePreference)
 }

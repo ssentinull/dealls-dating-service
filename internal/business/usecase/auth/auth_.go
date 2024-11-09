@@ -26,7 +26,7 @@ func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) 
 		return model.UserModel{}, err
 	}
 
-	if existingUser.ID > 0 {
+	if existingUser.Id > 0 {
 		err = errors.New("email is already in use")
 		a.efLogger.Error(err)
 		return model.UserModel{}, x.WrapWithCode(err, http.StatusConflict, "email is already in use")
@@ -38,7 +38,7 @@ func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) 
 		return model.UserModel{}, err
 	}
 
-	book := model.UserModel{
+	user := model.UserModel{
 		Email:     params.Body.Email,
 		Name:      params.Body.Name,
 		Password:  string(encPassword),
@@ -47,7 +47,7 @@ func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) 
 		Location:  string(params.Body.Location),
 	}
 
-	res, err := a.userDom.CreateUser(ctx, nil, book)
+	res, err := a.userDom.CreateUser(ctx, nil, user)
 	if err != nil {
 		a.efLogger.Error(err)
 		return model.UserModel{}, err

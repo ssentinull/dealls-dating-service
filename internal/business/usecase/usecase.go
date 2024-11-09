@@ -3,6 +3,7 @@ package usecase
 import (
 	"github.com/ssentinull/dealls-dating-service/internal/business/domain"
 	usecaseAuth "github.com/ssentinull/dealls-dating-service/internal/business/usecase/auth"
+	"github.com/ssentinull/dealls-dating-service/internal/business/usecase/feed"
 	stdLibAuth "github.com/ssentinull/dealls-dating-service/pkg/stdlib/auth"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/parser"
@@ -10,10 +11,12 @@ import (
 
 type Usecase struct {
 	Auth usecaseAuth.UsecaseItf
+	Feed feed.UsecaseItf
 }
 
 type Options struct {
 	Auth usecaseAuth.Options
+	Feed feed.Options
 }
 
 func Init(
@@ -30,6 +33,13 @@ func Init(
 			parser.JSONParser(),
 			stdAuth,
 			opt.Auth,
+		),
+		Feed: feed.InitFeedUsecase(
+			dom.Feed,
+			efLogger,
+			parser.JSONParser(),
+			stdAuth,
+			opt.Feed,
 		),
 	}
 }
