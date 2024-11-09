@@ -4,16 +4,24 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
 	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) (model.UserModel, error) {
-	existingUser, err := a.userDom.GetUserByParams(ctx, model.GetUserParams{Email: params.Body.Email})
+	birthDate, err := time.Parse("02-01-2006", params.Body.BirthDate)
 	if err != nil {
+		a.efLogger.Error(err)
+		return model.UserModel{}, x.WrapWithCode(err, http.StatusBadRequest, "birth_date field layout is invalid")
+	}
+
+	existingUser, err := a.userDom.GetUserByParams(ctx, model.GetUserParams{Email: params.Body.Email})
+	if err != nil && x.GetCause(err) != gorm.ErrRecordNotFound {
 		a.efLogger.Error(err)
 		return model.UserModel{}, err
 	}
@@ -31,9 +39,12 @@ func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) 
 	}
 
 	book := model.UserModel{
-		Email:    params.Body.Email,
-		Name:     params.Body.Name,
-		Password: string(encPassword),
+		Email:     params.Body.Email,
+		Name:      params.Body.Name,
+		Password:  string(encPassword),
+		Gender:    string(params.Body.Gender),
+		BirthDate: birthDate,
+		Location:  string(params.Body.Location),
 	}
 
 	res, err := a.userDom.CreateUser(ctx, nil, book)

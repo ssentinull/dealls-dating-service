@@ -4,3 +4,18 @@ info:
   version: 0.0.4
 paths: {}
 definitions:
+
+  Gender:
+    title: User Gender
+    type: string
+    enum:
+      - MALE
+      - FEMALE
+  
+  Location:
+    title: Location City
+    type: string
+    enum: 
+      - JAKARTA
+      - PALEMBANG
+      - DENPASAR

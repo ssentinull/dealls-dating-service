@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "users" (
     "password" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "gender" VARCHAR(50),
-    "dob" DATE,
+    "birth_date" DATE,
     "location" VARCHAR(255),
     "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMP,

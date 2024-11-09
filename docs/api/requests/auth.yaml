@@ -27,6 +27,25 @@ definitions:
         x-omitempty: false
         x-nullable: false
         type: string
+      gender:
+        $ref: '../definitions/enum.yaml#/definitions/Gender'
+        description: the Gender
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+      birth_date:
+        description: the Birth Date
+        type: string
+        format: string
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+      location:
+        $ref: '../definitions/enum.yaml#/definitions/Location'
+        description: the Location
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
 
   LoginUserRequest:
     title: Login User Request

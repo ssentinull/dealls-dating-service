@@ -35,7 +35,7 @@ func (u *userImpl) getUserSQL(ctx context.Context, p model.GetUserParams) (model
 		Take(&result).
 		Error
 	if err != nil {
-		return result, x.Wrap(err, libsql.SomethingWentWrongWithDB)
+		return result, err
 	}
 
 	return result, nil
