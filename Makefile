@@ -37,7 +37,7 @@ endif
 .PHONY: install
 install-dep: swagger-install ## Install dependencies
 	@command -v "dlv" >/dev/null 2>&1 || go install github.com/go-delve/delve/cmd/dlv@latest
-	@command -v "mockgen" >/dev/null 2>&1 || go install github.com/golang/mock/mockgen@v1.6.0
+	@command -v "mockgen" >/dev/null 2>&1 || go install go.uber.org/mock/mockgen@latest
 	@$(MAKE) tidy
 
 tidy:
@@ -46,7 +46,7 @@ tidy:
 check-modd-exists:
 	@modd --version > /dev/null
 
-run: check-modd-exists
+run-dev: check-modd-exists
 	@modd -f ./.modd/server.modd.conf
 
 migrate-up:

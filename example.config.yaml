@@ -43,7 +43,7 @@ SQL:
   Leader:
     Enabled: true
     Mock: false
-    DSN: postgres://efishery:@localhost:6436/library?sslmode=disable
+    DSN: postgres://localhost:@localhost:6436/library?sslmode=disable
   Follower:
     Enabled: false
     Mock: false

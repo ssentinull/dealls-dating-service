@@ -2,17 +2,17 @@ package usecase
 
 import (
 	"github.com/ssentinull/dealls-dating-service/internal/business/domain"
-	"github.com/ssentinull/dealls-dating-service/internal/business/usecase/book"
+	"github.com/ssentinull/dealls-dating-service/internal/business/usecase/auth"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/parser"
 )
 
 type Usecase struct {
-	Book book.UsecaseItf
+	Auth auth.UsecaseItf
 }
 
 type Options struct {
-	Book book.Options
+	Auth auth.Options
 }
 
 func Init(
@@ -22,11 +22,11 @@ func Init(
 	opt Options,
 ) *Usecase {
 	return &Usecase{
-		Book: book.InitBookUsecase(
-			dom.Book,
+		Auth: auth.InitAuthUsecase(
+			dom.User,
 			efLogger,
 			parser.JSONParser(),
-			opt.Book,
+			opt.Auth,
 		),
 	}
 }

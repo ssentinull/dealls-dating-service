@@ -1,0 +1,29 @@
+swagger: "2.0"
+info:
+  title: Auth request definitions
+  version: 0.0.4
+paths: {}
+definitions:
+
+  SignupUserRequest:
+    title: Signup User Request
+    type: object
+    properties:
+      email:
+        description: the Email
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: string
+      password:
+        description: the Password
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: string
+      name:
+        description: the Name
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: string

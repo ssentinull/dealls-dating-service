@@ -1,0 +1,38 @@
+swagger: "2.0"
+info:
+  title: Auth paths
+  version: 0.0.4
+paths:
+
+  /auth/signup:
+    post:
+      description: Signup User
+      summary: SignupUser_POST
+      operationId: SignupUser
+      tags:
+        - auth
+      deprecated: false
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '../definitions/header.yaml#/parameters/XClientId'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "../requests/auth.yaml#/definitions/SignupUserRequest"
+      responses:
+        "201":
+          description: Signup user successfully.
+          schema:
+            $ref: "../responses/auth.yaml#/definitions/SignupUserResponse"
+        "400":
+          $ref: "../responses/error.yaml#/responses/ValidationErrorResponse"
+        "401":
+          $ref: "../responses/error.yaml#/responses/AuthUnauthorizedResponse"
+        "409":
+          $ref: "../responses/error.yaml#/responses/ConflictErrorResponse"
+        "500":
+          $ref: "../responses/error.yaml#/responses/InternalServerErrorResponse"

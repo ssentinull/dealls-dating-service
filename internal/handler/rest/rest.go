@@ -70,5 +70,7 @@ func (r *rest) Serve() {
 	})
 
 	apiV1 := route.Group("/v1/api")
-	apiV1.POST("/books", r.CreateBook)
+
+	authV1 := apiV1.Group("/auth")
+	authV1.POST("/signup", r.SignupUser)
 }

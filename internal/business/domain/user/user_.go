@@ -1,4 +1,4 @@
-package book
+package user
 
 import (
 	"context"
@@ -9,10 +9,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func (b *bookImpl) CreateBook(ctx context.Context, tx *gorm.DB, p model.BookModel) (model.BookModel, error) {
-	result, err := b.createBookSQL(ctx, tx, p)
+func (u *userImpl) CreateUser(ctx context.Context, tx *gorm.DB, p model.UserModel) (model.UserModel, error) {
+	result, err := u.createUserSQL(ctx, tx, p)
 	if err != nil {
-		err = x.WrapPassCode(err, "createBookSQL")
+		err = x.WrapPassCode(err, "createUserSQL")
 		return result, err
 	}
 

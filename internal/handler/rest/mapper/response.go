@@ -5,11 +5,10 @@ import (
 	"github.com/ssentinull/dealls-dating-service/internal/types"
 )
 
-func MapBookModelToBookType(src model.BookModel) *types.Book {
-	res := &types.Book{
-		ID:     src.ID,
-		Title:  src.Title,
-		Author: src.Author,
+func MapUserModelToUserType(src model.UserModel) *types.User {
+	res := &types.User{
+		ID:    src.ID,
+		Email: src.Email,
 	}
 
 	return res

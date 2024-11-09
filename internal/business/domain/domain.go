@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/ssentinull/dealls-dating-service/internal/business/domain/book"
+	"github.com/ssentinull/dealls-dating-service/internal/business/domain/user"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/cache"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/libsql"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
@@ -9,11 +9,11 @@ import (
 )
 
 type Domain struct {
-	Book book.DomainItf
+	User user.DomainItf
 }
 
 type Options struct {
-	Book book.Options
+	User user.Options
 }
 
 func Init(
@@ -24,12 +24,12 @@ func Init(
 	opt Options,
 ) *Domain {
 	return &Domain{
-		Book: book.InitBookDomain(
+		User: user.InitUserDomain(
 			efLogger,
 			parser.JSONParser(),
 			sqlClient,
 			redisClient,
-			opt.Book,
+			opt.User,
 		),
 	}
 }

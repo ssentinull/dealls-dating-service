@@ -1,4 +1,4 @@
-package book
+package user
 
 import (
 	"context"
@@ -11,12 +11,12 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-func (b *bookImpl) createBookSQL(ctx context.Context, tx *gorm.DB, p model.BookModel) (model.BookModel, error) {
+func (u *userImpl) createUserSQL(ctx context.Context, tx *gorm.DB, p model.UserModel) (model.UserModel, error) {
 	if tx == nil {
-		tx = b.sql.Leader()
+		tx = u.sql.Leader()
 	}
 
-	var result model.BookModel
+	var result model.UserModel
 	if err := tx.WithContext(ctx).Omit(clause.Associations).Create(&p).Error; err != nil {
 		return result, x.Wrap(err, libsql.SomethingWentWrongWithDB)
 	}

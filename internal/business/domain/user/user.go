@@ -1,4 +1,4 @@
-package book
+package user
 
 import (
 	"context"
@@ -12,10 +12,10 @@ import (
 )
 
 type DomainItf interface {
-	CreateBook(ctx context.Context, tx *gorm.DB, p model.BookModel) (model.BookModel, error)
+	CreateUser(ctx context.Context, tx *gorm.DB, p model.UserModel) (model.UserModel, error)
 }
 
-type bookImpl struct {
+type userImpl struct {
 	efLogger logger.Logger
 	json     parser.JSONParser
 	cache    cache.Redis
@@ -25,8 +25,8 @@ type bookImpl struct {
 
 type Options struct{}
 
-func InitBookDomain(efLogger logger.Logger, json parser.JSONParser, sql libsql.SQL, redisClient cache.Redis, opt Options) DomainItf {
-	return &bookImpl{
+func InitUserDomain(efLogger logger.Logger, json parser.JSONParser, sql libsql.SQL, redisClient cache.Redis, opt Options) DomainItf {
+	return &userImpl{
 		efLogger: efLogger,
 		json:     json,
 		cache:    redisClient,

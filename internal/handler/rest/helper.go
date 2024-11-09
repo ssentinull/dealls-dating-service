@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
-	"strconv"
 	"strings"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
@@ -207,10 +206,10 @@ func (r *rest) ResponseError(c *gin.Context, err error, opts ...interface{}) {
 
 func (r *rest) responseSuccess(c *gin.Context, code int, resp interface{}, opts ...interface{}) {
 	var (
-		raw        []byte
-		err        error
-		message    string
-		pagination *types.Pagination
+		raw     []byte
+		err     error
+		message string
+		// pagination *types.Pagination
 	)
 
 	for _, v := range opts {
@@ -219,33 +218,33 @@ func (r *rest) responseSuccess(c *gin.Context, code int, resp interface{}, opts 
 			code = val
 		case string:
 			message = val
-		case *types.Pagination:
-			baseURL := c.FullPath()
-			if val.NextPage != nil {
-				nextQuery := c.Request.URL.Query()
-				nextQuery.Set("page", strconv.Itoa(int(*val.NextPage)))
-				val.NextURL = fmt.Sprintf("%s?%s", baseURL, nextQuery.Encode())
+			// case *types.Pagination:
+			// 	baseURL := c.FullPath()
+			// 	if val.NextPage != nil {
+			// 		nextQuery := c.Request.URL.Query()
+			// 		nextQuery.Set("page", strconv.Itoa(int(*val.NextPage)))
+			// 		val.NextURL = fmt.Sprintf("%s?%s", baseURL, nextQuery.Encode())
 
-				// purge NextPage Number to omit response the page number
-				val.NextPage = nil
-			}
-			if val.PrevPage != nil {
-				prevQuery := c.Request.URL.Query()
-				prevQuery.Set("page", strconv.Itoa(int(*val.PrevPage)))
-				val.PrevURL = fmt.Sprintf("%s?%s", baseURL, prevQuery.Encode())
+			// 		// purge NextPage Number to omit response the page number
+			// 		val.NextPage = nil
+			// 	}
+			// 	if val.PrevPage != nil {
+			// 		prevQuery := c.Request.URL.Query()
+			// 		prevQuery.Set("page", strconv.Itoa(int(*val.PrevPage)))
+			// 		val.PrevURL = fmt.Sprintf("%s?%s", baseURL, prevQuery.Encode())
 
-				// purge PrevPage Number to omit response the page number
-				val.PrevPage = nil
-			}
+			// 		// purge PrevPage Number to omit response the page number
+			// 		val.PrevPage = nil
+			// 	}
 
-			pagination = val
+			// 	pagination = val
 		}
 	}
 
 	switch data := resp.(type) {
-	case model.BookModel:
-		resultType := mapper.MapBookModelToBookType(data)
-		res := types.CreateBookResponse{
+	case model.UserModel:
+		resultType := mapper.MapUserModelToUserType(data)
+		res := types.SignupUserResponse{
 			Success: true,
 			Message: message,
 			Data:    resultType,
@@ -256,8 +255,6 @@ func (r *rest) responseSuccess(c *gin.Context, code int, resp interface{}, opts 
 		r.ResponseError(c, errors.New("unknown response type"), fmt.Sprintf("cannot cast type of %+v", data))
 		return
 	}
-
-	fmt.Println(pagination)
 
 	if err != nil {
 		r.ResponseError(c, err, http.StatusInternalServerError, "Marshall HTTP Response")

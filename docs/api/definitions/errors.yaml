@@ -12,12 +12,15 @@ definitions:
         example: true
         type: boolean
         x-nullable: false
+        x-order: 1
       message:
         description: "Short, human-readable description of the error"
         type: string
         example: User is lacking permission to access this resource
+        x-order: 2
       data:
         type: object
+        x-order: 3
         properties:
           status:
             description: HTTP status code returned for the error
@@ -49,12 +52,15 @@ definitions:
         example: true
         type: boolean
         x-nullable: false
+        x-order: 1
       message:
         description: "Short, human-readable description of the error"
         type: string
         example: User is lacking permission to access this resource
+        x-order: 2
       data:
         type: object
+        x-order: 3
         properties:
           status:
             description: HTTP status code returned for the error
