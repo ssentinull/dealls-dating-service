@@ -12,7 +12,17 @@ import (
 )
 
 func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) (model.UserModel, error) {
-	// TODO: check for duplicate email and return conflict status code
+	existingUser, err := a.userDom.GetUserByParams(ctx, model.GetUserParams{Email: params.Body.Email})
+	if err != nil {
+		a.efLogger.Error(err)
+		return model.UserModel{}, err
+	}
+
+	if existingUser.ID > 0 {
+		err = errors.New("email is already in use")
+		a.efLogger.Error(err)
+		return model.UserModel{}, x.WrapWithCode(err, http.StatusConflict, "email is already in use")
+	}
 
 	encPassword, err := bcrypt.GenerateFromPassword([]byte(params.Body.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -38,20 +48,19 @@ func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) 
 func (a *authUc) LoginUser(ctx context.Context, params model.LoginUserParams) (model.JWTModel, error) {
 	existingUser, err := a.userDom.GetUserByParams(ctx, model.GetUserParams{Email: params.Body.Email})
 	if err != nil {
+		err = errors.New("email not found")
 		a.efLogger.Error(err)
-		return model.JWTModel{}, err
-	}
-
-	if existingUser.ID <= 0 {
-		return model.JWTModel{}, x.WrapWithCode(errors.New("email not found"), http.StatusNotFound, "email not found")
+		return model.JWTModel{}, x.WrapWithCode(err, http.StatusNotFound, "email not found")
 	}
 
 	if err = bcrypt.CompareHashAndPassword([]byte(existingUser.Password), []byte(params.Body.Password)); err != nil {
+		a.efLogger.Error(err)
 		return model.JWTModel{}, x.WrapWithCode(errors.New("incorrect password"), http.StatusUnauthorized, "incorrect password")
 	}
 
 	jwtToken, err := a.auth.GenerateJWTToken(existingUser)
 	if err != nil {
+		a.efLogger.Error(err)
 		return model.JWTModel{}, err
 	}
 
