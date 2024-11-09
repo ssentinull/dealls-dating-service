@@ -12,8 +12,16 @@ type (
 		Name     string
 	}
 
+	GetUserParams struct {
+		Email string
+	}
+
 	SignupUserParams struct {
 		params.SignupUserParams
+	}
+
+	LoginUserParams struct {
+		params.LoginUserParams
 	}
 )
 

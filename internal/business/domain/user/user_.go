@@ -18,3 +18,13 @@ func (u *userImpl) CreateUser(ctx context.Context, tx *gorm.DB, p model.UserMode
 
 	return result, nil
 }
+
+func (u *userImpl) GetUserByParams(ctx context.Context, p model.GetUserParams) (model.UserModel, error) {
+	result, err := u.getUserSQL(ctx, p)
+	if err != nil {
+		err = x.WrapPassCode(err, "getUserSQL")
+		return result, err
+	}
+
+	return result, nil
+}

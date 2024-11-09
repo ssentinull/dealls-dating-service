@@ -25,3 +25,24 @@ definitions:
         $ref: '../definitions/user.yaml#/definitions/User'
     required:
       - success
+
+  LoginUserResponse:
+    title: Login User Response
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+        x-nullable: false
+        x-order: 1
+      message:
+        example: A success message
+        type: string
+        x-nullable: false
+        x-order: 2
+      data:
+        x-nullable: false
+        x-order: 3
+        $ref: '../definitions/auth.yaml#/definitions/JWT'
+    required:
+      - success

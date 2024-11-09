@@ -73,4 +73,5 @@ func (r *rest) Serve() {
 
 	authV1 := apiV1.Group("/auth")
 	authV1.POST("/signup", r.SignupUser)
+	authV1.POST("/login", r.LoginUser)
 }

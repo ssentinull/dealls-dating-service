@@ -6,10 +6,14 @@ import (
 )
 
 func MapUserModelToUserType(src model.UserModel) *types.User {
-	res := &types.User{
+	return &types.User{
 		ID:    src.ID,
 		Email: src.Email,
 	}
+}
 
-	return res
+func MapJWTModelToJWTType(src model.JWTModel) *types.JWT {
+	return &types.JWT{
+		Token: src.Token,
+	}
 }

@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
-  description: Golang Boilerplate Documentation
-  title: Golang Boilerplate Service API
+  description: Dealls Dating Service Documentation
+  title: Dealls Dating Service API
   version: 0.0.4
 consumes:
   - application/json

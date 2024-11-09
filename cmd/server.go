@@ -116,6 +116,7 @@ func run(cmd *cobra.Command, args []string) {
 	uc = usecase.Init(
 		efLogger,
 		parse,
+		aut,
 		dom,
 		conf.Business.Usecase,
 	)

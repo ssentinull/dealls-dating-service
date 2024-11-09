@@ -1,0 +1,20 @@
+swagger: "2.0"
+info:
+  title: Auth definitions
+  version: 0.0.4
+paths: {}
+definitions:
+
+  JWT:
+    title: Json Web Token
+    type: object
+    x-omitempty: false
+    x-nullable: true
+    properties:
+      token:
+        description: the Token
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 1
+        type: string

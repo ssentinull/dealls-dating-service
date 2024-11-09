@@ -3,7 +3,9 @@ package auth
 import (
 	"errors"
 	"strings"
+	"time"
 
+	"github.com/ssentinull/dealls-dating-service/internal/business/model"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/httpclient"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/parser"
 
@@ -32,6 +34,7 @@ const (
 )
 
 type Auth interface {
+	GenerateJWTToken(user model.UserModel) (string, error)
 	ParseJWTToken(tokenstring string) (*JWTClaims, error)
 	ExtractJWTClaims(tokenstring string) (*JWTClaims, error)
 	ParseJWTTokenWithoutExpirationCheck(tokenstring string) (*JWTClaims, error)
@@ -49,14 +52,15 @@ type auth struct {
 }
 
 type Options struct {
-	SecretKey   string `validate:"required"`
-	StaticToken string `validate:"required"`
+	SecretKey      string `validate:"required"`
+	StaticToken    string `validate:"required"`
+	ExpiryDuration string `validate:"required"`
 }
 
 // JWTClaims jwt claims struct
 type JWTClaims struct {
 	jwt.StandardClaims
-	ID    int    `json:"id"`
+	ID    int64  `json:"id"`
 	Email string `json:"email"`
 	Name  string `json:"name"`
 }
@@ -71,6 +75,31 @@ func Init(
 		httpClient: httpClient,
 		json:       json,
 	}
+}
+
+func (a *auth) GenerateJWTToken(user model.UserModel) (string, error) {
+	var expiryDuration time.Duration
+	expiryDuration, err := time.ParseDuration(a.opt.ExpiryDuration)
+	if err != nil {
+		expiryDuration = 1 * time.Hour
+	}
+
+	claims := JWTClaims{
+		ID:    user.ID,
+		Email: user.Email,
+		Name:  user.Name,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(expiryDuration).Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	signedToken, err := token.SignedString([]byte(a.opt.SecretKey))
+	if err != nil {
+		return "", err
+	}
+
+	return signedToken, nil
 }
 
 func (a *auth) ParseJWTToken(tokenString string) (*JWTClaims, error) {

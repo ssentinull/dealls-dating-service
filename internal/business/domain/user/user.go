@@ -13,6 +13,7 @@ import (
 
 type DomainItf interface {
 	CreateUser(ctx context.Context, tx *gorm.DB, p model.UserModel) (model.UserModel, error)
+	GetUserByParams(ctx context.Context, p model.GetUserParams) (model.UserModel, error)
 }
 
 type userImpl struct {

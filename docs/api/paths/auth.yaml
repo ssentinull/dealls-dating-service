@@ -36,3 +36,36 @@ paths:
           $ref: "../responses/error.yaml#/responses/ConflictErrorResponse"
         "500":
           $ref: "../responses/error.yaml#/responses/InternalServerErrorResponse"
+
+  /auth/login:
+    post:
+      description: Login User
+      summary: LoginUser_POST
+      operationId: LoginUser
+      tags:
+        - auth
+      deprecated: false
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '../definitions/header.yaml#/parameters/XClientId'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "../requests/auth.yaml#/definitions/LoginUserRequest"
+      responses:
+        "200":
+          description: Login user successfully.
+          schema:
+            $ref: "../responses/auth.yaml#/definitions/LoginUserResponse"
+        "400":
+          $ref: "../responses/error.yaml#/responses/ValidationErrorResponse"
+        "401":
+          $ref: "../responses/error.yaml#/responses/AuthUnauthorizedResponse"
+        "409":
+          $ref: "../responses/error.yaml#/responses/ConflictErrorResponse"
+        "500":
+          $ref: "../responses/error.yaml#/responses/InternalServerErrorResponse"

@@ -1,6 +1,7 @@
 Auth:
   SecretKey: abc
   StaticToken: abc
+  ExpiryDuration: 24h
 Grace:
   Network: ""
   Pidfile: ""
