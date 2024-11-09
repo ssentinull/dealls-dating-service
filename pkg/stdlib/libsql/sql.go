@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"gorm.io/driver/postgres"

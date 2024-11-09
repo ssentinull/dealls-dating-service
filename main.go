@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ssentinull/golang-boilerplate/cmd"
+	"github.com/ssentinull/dealls-dating-service/cmd"
 )
 
 func main() {

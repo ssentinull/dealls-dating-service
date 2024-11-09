@@ -5,12 +5,12 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ssentinull/golang-boilerplate/internal/business/usecase"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/auth"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/httpmiddleware"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/httpmux"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/parser"
+	"github.com/ssentinull/dealls-dating-service/internal/business/usecase"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/auth"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/httpmiddleware"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/httpmux"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/parser"
 )
 
 var once = &sync.Once{}

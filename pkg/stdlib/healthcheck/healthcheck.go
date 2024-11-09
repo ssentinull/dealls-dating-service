@@ -8,10 +8,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/build_util"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/cache"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/libsql"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/build_util"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/cache"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/libsql"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 
 	"gorm.io/gorm"
 )

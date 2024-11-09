@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/parser"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/parser"
 
 	"github.com/gojek/heimdall/v7"
 	"github.com/gojek/heimdall/v7/httpclient"

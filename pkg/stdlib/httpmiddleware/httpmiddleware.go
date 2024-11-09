@@ -11,10 +11,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/common"
-	"github.com/ssentinull/golang-boilerplate/pkg/constants"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/auth"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/common"
+	"github.com/ssentinull/dealls-dating-service/pkg/constants"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/auth"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 
 	"github.com/gin-gonic/gin"
 )

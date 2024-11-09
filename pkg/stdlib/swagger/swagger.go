@@ -3,7 +3,7 @@ package swagger
 import (
 	"os"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

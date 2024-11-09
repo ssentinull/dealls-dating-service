@@ -8,8 +8,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/httpserver"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/httpserver"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 
 	"github.com/cloudflare/tableflip"
 )

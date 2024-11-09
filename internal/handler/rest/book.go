@@ -3,9 +3,9 @@ package restserver
 import (
 	"net/http"
 
-	"github.com/ssentinull/golang-boilerplate/internal/business/model"
-	bookTypes "github.com/ssentinull/golang-boilerplate/internal/types/book"
-	x "github.com/ssentinull/golang-boilerplate/pkg/stdlib/stacktrace"
+	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	bookTypes "github.com/ssentinull/dealls-dating-service/internal/types/book"
+	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"github.com/gin-gonic/gin"
 )

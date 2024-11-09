@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
 
 	goValidator "github.com/go-playground/validator/v10"
 )

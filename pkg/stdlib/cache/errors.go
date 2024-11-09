@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/stacktrace"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 )
 
 const (

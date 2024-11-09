@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/httpclient"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/parser"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/httpclient"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/parser"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"

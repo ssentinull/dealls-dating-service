@@ -3,8 +3,8 @@ package book
 import (
 	"context"
 
-	"github.com/ssentinull/golang-boilerplate/internal/business/model"
-	x "github.com/ssentinull/golang-boilerplate/pkg/stdlib/stacktrace"
+	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"gorm.io/gorm"
 )

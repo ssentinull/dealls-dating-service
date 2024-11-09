@@ -3,8 +3,8 @@ package book
 import (
 	"context"
 
-	"github.com/ssentinull/golang-boilerplate/internal/business/model"
-	"github.com/ssentinull/golang-boilerplate/pkg/common"
+	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	"github.com/ssentinull/dealls-dating-service/pkg/common"
 )
 
 func (b *bookUc) CreateBook(ctx context.Context, params model.CreateBookParams) (model.BookModel, error) {

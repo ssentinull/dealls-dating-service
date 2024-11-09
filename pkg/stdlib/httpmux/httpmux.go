@@ -3,10 +3,10 @@ package httpmux
 import (
 	"net/http"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/healthcheck"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/httpmiddleware"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/swagger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/healthcheck"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/httpmiddleware"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/swagger"
 
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"

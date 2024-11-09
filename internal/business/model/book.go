@@ -1,7 +1,7 @@
 package model
 
 import (
-	params "github.com/ssentinull/golang-boilerplate/internal/types/book"
+	params "github.com/ssentinull/dealls-dating-service/internal/types/book"
 )
 
 type (

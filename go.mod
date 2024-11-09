@@ -1,4 +1,4 @@
-module github.com/ssentinull/golang-boilerplate
+module github.com/ssentinull/dealls-dating-service
 
 go 1.21
 

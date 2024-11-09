@@ -1,10 +1,10 @@
 package usecase
 
 import (
-	"github.com/ssentinull/golang-boilerplate/internal/business/domain"
-	"github.com/ssentinull/golang-boilerplate/internal/business/usecase/book"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/parser"
+	"github.com/ssentinull/dealls-dating-service/internal/business/domain"
+	"github.com/ssentinull/dealls-dating-service/internal/business/usecase/book"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/parser"
 )
 
 type Usecase struct {

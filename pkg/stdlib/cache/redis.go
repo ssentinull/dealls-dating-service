@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/logger"
-	x "github.com/ssentinull/golang-boilerplate/pkg/stdlib/stacktrace"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
+	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	redis "github.com/go-redis/redis/v8"
 	redismock "github.com/go-redis/redismock/v8"

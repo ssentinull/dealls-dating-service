@@ -1,8 +1,8 @@
 package mapper
 
 import (
-	"github.com/ssentinull/golang-boilerplate/internal/business/model"
-	"github.com/ssentinull/golang-boilerplate/internal/types"
+	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	"github.com/ssentinull/dealls-dating-service/internal/types"
 )
 
 func MapBookModelToBookType(src model.BookModel) *types.Book {

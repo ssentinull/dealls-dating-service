@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/common"
+	"github.com/ssentinull/dealls-dating-service/pkg/common"
 )
 
 type SortOption map[string]struct {

@@ -10,10 +10,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ssentinull/golang-boilerplate/internal/business/model"
-	"github.com/ssentinull/golang-boilerplate/internal/handler/rest/mapper"
-	"github.com/ssentinull/golang-boilerplate/internal/types"
-	"github.com/ssentinull/golang-boilerplate/pkg/stdlib/stacktrace"
+	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	"github.com/ssentinull/dealls-dating-service/internal/handler/rest/mapper"
+	"github.com/ssentinull/dealls-dating-service/internal/types"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"github.com/gin-gonic/gin"
 	errorx "github.com/go-openapi/errors"

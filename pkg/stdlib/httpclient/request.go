@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/ssentinull/golang-boilerplate/pkg/constants"
+	"github.com/ssentinull/dealls-dating-service/pkg/constants"
 )
 
 type RequestProp struct {
