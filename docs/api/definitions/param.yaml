@@ -1,0 +1,35 @@
+swagger: "2.0"
+info:
+  title: Query Parameter definitions
+  version: 0.0.4
+paths: {}
+parameters:
+
+  PaginationPage:
+    name: page
+    x-go-name: "PaginationPage"
+    in: query
+    required: false
+    type: integer
+    default: 1
+    minimum: 1
+    description: Pagination page
+
+  PaginationSize:
+    name: size
+    x-go-name: "PaginationSize"
+    in: query
+    required: false
+    type: integer
+    default: 10
+    minimum: 1
+    description: Pagination size
+
+  PaginationSort:
+    name: sort
+    x-go-name: "PaginationSort"
+    in: query
+    required: false
+    type: string
+    default: created_at DESC
+    description: Pagination sort

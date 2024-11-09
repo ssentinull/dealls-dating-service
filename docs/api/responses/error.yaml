@@ -1,0 +1,42 @@
+swagger: "2.0"
+info:
+  title: Error responses
+  version: 0.0.4
+paths: {}
+definitions: {}
+responses:
+
+  AuthForbiddenResponse:
+    description: Auth Forbidden Response
+    schema:
+      $ref: '../definitions/errors.yaml#/definitions/PublicHTTPError'
+
+  AuthUnauthorizedResponse:
+    description: Auth Unauthorized Response
+    schema:
+      $ref: '../definitions/errors.yaml#/definitions/PublicHTTPError'
+
+  ValidationErrorResponse:
+    description: Validation Error
+    schema:
+      $ref: '../definitions/errors.yaml#/definitions/PublicHTTPValidationError'
+
+  ConflictErrorResponse:
+    description: Conflict Error
+    schema:
+      $ref: '../definitions/errors.yaml#/definitions/PublicHTTPError'
+
+  NotFoundErrorResponse:
+    description: Not Found Error
+    schema:
+      $ref: '../definitions/errors.yaml#/definitions/PublicHTTPError'
+
+  UnprocessableEntityErrorResponse:
+    description: Unprocessable Entity Error
+    schema:
+      $ref: '../definitions/errors.yaml#/definitions/PublicHTTPError'
+
+  InternalServerErrorResponse:
+    description: Internal Server Error
+    schema:
+      $ref: '../definitions/errors.yaml#/definitions/PublicHTTPError'

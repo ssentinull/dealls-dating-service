@@ -1,0 +1,23 @@
+swagger: "2.0"
+info:
+  title: Book request definitions
+  version: 0.0.4
+paths: {}
+definitions:
+
+  CreateBookRequest:
+    title: Create Book Request
+    type: object
+    properties:
+      title:
+        description: the Title
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: string
+      author:
+        description: the Author
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: string

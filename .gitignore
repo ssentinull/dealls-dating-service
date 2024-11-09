@@ -1,0 +1,19 @@
+# environment variables
+.env
+config.yaml
+
+# unit test files
+/internal/mocks
+/pkg/stdlib/tests
+
+# swagger files
+docs/api/tmp/
+docs/api/swagger.*
+internal/types/**/*.go
+swagger-cli
+
+# build files
+/build
+
+# misc files
+notes.md

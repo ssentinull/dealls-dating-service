@@ -1,0 +1,94 @@
+swagger: "2.0"
+info:
+  title: Errors Definitions
+  version: 0.0.4
+paths: {}
+definitions:
+
+  PublicHTTPError:
+    type: object
+    properties:
+      success:
+        example: true
+        type: boolean
+        x-nullable: false
+      message:
+        description: "Short, human-readable description of the error"
+        type: string
+        example: User is lacking permission to access this resource
+      data:
+        type: object
+        properties:
+          status:
+            description: HTTP status code returned for the error
+            type: integer
+            format: int64
+            maximum: 599
+            minimum: 100
+            x-go-name: Code
+            example: 403
+          detail:
+            type: string
+            description: "More detailed, human-readable, optional explanation of the error"
+            example: Forbidden
+          type:
+            description: "Type of error returned, should be used for client-side error handling"
+            type: string
+            example: generic
+      trace_id:
+        type: string
+        description: "reference id to trace"
+        example: Ube4ab48e26e7d21c13dcbf07f8cebc0a
+    required:
+      - success
+
+  PublicHTTPValidationError:
+    type: object
+    properties:
+      success:
+        example: true
+        type: boolean
+        x-nullable: false
+      message:
+        description: "Short, human-readable description of the error"
+        type: string
+        example: User is lacking permission to access this resource
+      data:
+        type: object
+        properties:
+          status:
+            description: HTTP status code returned for the error
+            type: integer
+            format: int64
+            maximum: 599
+            minimum: 100
+            x-go-name: Code
+            example: 403
+          detail:
+            type: string
+            description: "More detailed, human-readable, optional explanation of the error"
+            example: Forbidden
+          type:
+            description: "Type of error returned, should be used for client-side error handling"
+            type: string
+            example: generic
+          validation_errors:
+            description: List of errors received while validating payload against schema
+            type: array
+            items:
+              $ref: "#/definitions/HTTPValidationErrorDetail"
+    required:
+      - success
+      
+  HTTPValidationErrorDetail:
+    type: object
+    properties:
+      error:
+        description: Error describing field validation failure
+        type: string
+      in:
+        description: Indicates how the invalid field was provided
+        type: string
+      key:
+        description: Key of field failing validation
+        type: string

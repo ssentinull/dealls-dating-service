@@ -1,0 +1,55 @@
+swagger: "2.0"
+info:
+  title: Book response definitions
+  version: 0.0.4
+paths: {}
+definitions:
+
+  CreateBookResponse:
+    title: Create Book Response
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+        x-nullable: false
+        x-order: 1
+      message:
+        example: A success message
+        type: string
+        x-nullable: false
+        x-order: 2
+      data:
+        x-nullable: false
+        x-order: 3
+        $ref: '../definitions/book.yaml#/definitions/Book'
+    required:
+      - success
+
+  GetBookListResponse:
+    title: Get Book List Response
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+        x-nullable: false
+        x-order: 1
+      message:
+        description: The response message
+        type: string
+        example: A success message
+        x-nullable: false
+        x-order: 2
+      data:
+        x-nullable: false
+        x-order: 3
+        type: array
+        items:
+          $ref: '../definitions/book.yaml#/definitions/Book'
+      pagination:
+        x-nullable: false
+        x-order: 4
+        $ref: '../definitions/common.yaml#/definitions/Pagination'
+    required:
+      - success

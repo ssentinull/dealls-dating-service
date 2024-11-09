@@ -1,0 +1,80 @@
+Auth:
+  SecretKey: abc
+  StaticToken: abc
+Grace:
+  Network: ""
+  Pidfile: ""
+  ShutdownTimeout: 10000000000
+  UpgradeTimeout: 20000000000
+HTTP:
+  Address: ""
+  Port: 8090
+  TimeoutIdle: 0
+  TimeoutRead: 0
+  TimeoutReadHeader: 0
+  TimeoutWrite: 0
+HTTPClient:
+  BackOffInterval: 0
+  DefaultClientID: golang-boilerplate
+  MaxRetryCount: 0
+  MaximumJitterInterval: 0
+  Timeout: 0
+HTTPMW:
+  AppName: golang-boilerplate
+  Env: staging
+HTTPMux:
+  AppEnv: staging
+  AppName: golang-boilerplate
+HealthCheck:
+  MaxWaitingTime: 20s
+  Readiness:
+    CheckTimeout: 1s
+    Enabled: true
+    FailureThreshold: 3
+    InitDelaySec: 10s
+    PeriodSec: 1s
+    SuccessThreshold: 1
+  WaitBeforeContinue: true
+Meta:
+  Env: local
+  Name: golang-boilerplate
+  Version: ""
+SQL:
+  Leader:
+    Enabled: true
+    Mock: false
+    DSN: postgres://efishery:@localhost:6436/library?sslmode=disable
+  Follower:
+    Enabled: false
+    Mock: false
+    DSN: ""
+Redis:
+  Address:
+    - localhost:6379
+  DB: 3
+  DialTimeout: 0
+  Enabled: true
+  IdleCheckFrequency: 0
+  IdleTimeout: 0
+  InsecureSkipVerify: false
+  MaxConnAge: 0
+  MaxRetries: 0
+  MaxRetryBackoff: 0
+  MinIdleConns: 0
+  MinRetryBackoff: 0
+  Mock: false
+  Password: ""
+  PoolSize: 0
+  PoolTimeout: 0
+  ReadTimeout: 0
+  WriteTimeout: 0
+Swagger:
+  DocPath: ./docs/api/swagger.json
+  Name: golang-boilerplate
+  Path: /swagger/*any
+Handler:
+  REST:
+    DebugMode: true
+Business:
+  Usecase:
+  Domain:

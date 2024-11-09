@@ -1,0 +1,51 @@
+swagger: '2.0'
+info:
+  title: Common definitions
+  version: 0.0.4
+paths: {}
+definitions:
+
+  Pagination:
+    title: Pagination
+    type: object
+    properties:
+      current_page:
+        description: '[offset only] number of current page'
+        type: integer
+        example: 1
+      next_page:
+        type: integer
+        x-nullable: true
+        x-omitempty: true
+      prev_page:
+        type: integer
+        x-nullable: true
+        x-omitempty: true
+      current_datas:
+        description: number of data returned
+        type: integer
+        example: 10
+      total_pages:
+        description: '[offset only] number of total pages'
+        type: integer
+        example: 100
+      total_datas:
+        description: number of total datas that can be acquired
+        type: integer
+        example: 2500
+      next_url:
+        description: url of the next page if exist
+        type: string
+        example: /?offset=10&limit=5
+      prev_url:
+        description: url of the previous page if exist
+        type: string
+        example: /?offset=0&limit=5
+
+  CreatedAt:
+    type: string
+    format: date-time
+
+  UpdatedAt:
+    type: string
+    format: date-time

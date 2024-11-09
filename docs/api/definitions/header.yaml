@@ -1,0 +1,40 @@
+swagger: "2.0"
+info:
+  title: Header definitions
+  version: 0.0.4
+paths: {}
+parameters:
+
+  ContentTypeJSON:
+    name: Content-Type
+    in: header
+    required: false
+    enum:
+      - application/json
+    type: string
+    description: Content type JSON
+
+  CacheControl:
+    name: Cache-Control
+    in: header
+    required: false
+    enum:
+      - Must Revalidate
+      - None
+      - no-cache
+    type: string
+    description: Request Cache Control
+
+  XClientId:
+    name: X-Client-Id
+    in: header
+    required: true
+    type: string
+    description: X Client Id
+
+  Authorization:
+    name: Authorization
+    in: header
+    required: true
+    type: string
+    description: Authorization
