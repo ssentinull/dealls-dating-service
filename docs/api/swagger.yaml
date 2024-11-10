@@ -1,0 +1,733 @@
+consumes:
+    - application/json
+produces:
+    - application/json
+swagger: "2.0"
+info:
+    description: Dealls Dating Service Documentation
+    title: Dealls Dating Service API
+    version: 0.0.4
+basePath: /v1/api
+paths:
+    /auth/login:
+        post:
+            consumes:
+                - application/json
+            description: Login User
+            operationId: LoginUser
+            parameters:
+                - description: X Client Id
+                  in: header
+                  name: X-Client-Id
+                  required: true
+                  type: string
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/loginUserRequest'
+            produces:
+                - application/json
+            responses:
+                "200":
+                    description: Login user successfully.
+                    schema:
+                        $ref: '#/definitions/loginUserResponse'
+                "400":
+                    description: Validation Error
+                    schema:
+                        $ref: '#/definitions/publicHttpValidationError'
+                "401":
+                    description: Auth Unauthorized Response
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+                "500":
+                    description: Internal Server Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+            summary: LoginUser_POST
+            tags:
+                - auth
+    /auth/signup:
+        post:
+            consumes:
+                - application/json
+            description: Signup User
+            operationId: SignupUser
+            parameters:
+                - description: X Client Id
+                  in: header
+                  name: X-Client-Id
+                  required: true
+                  type: string
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/signupUserRequest'
+            produces:
+                - application/json
+            responses:
+                "201":
+                    description: Signup user successfully.
+                    schema:
+                        $ref: '#/definitions/signupUserResponse'
+                "400":
+                    description: Validation Error
+                    schema:
+                        $ref: '#/definitions/publicHttpValidationError'
+                "409":
+                    description: Conflict Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+                "500":
+                    description: Internal Server Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+            summary: SignupUser_POST
+            tags:
+                - auth
+    /feed:
+        get:
+            description: Get Feed
+            operationId: GetFeed
+            parameters:
+                - description: X Client Id
+                  in: header
+                  name: X-Client-Id
+                  required: true
+                  type: string
+                - default: !!float 1
+                  description: Pagination page
+                  in: query
+                  minimum: !!float 1
+                  name: page
+                  type: integer
+                  x-go-name: PaginationPage
+                - default: !!float 10
+                  description: Pagination size
+                  in: query
+                  minimum: !!float 1
+                  name: size
+                  type: integer
+                  x-go-name: PaginationSize
+            produces:
+                - application/json
+            responses:
+                "200":
+                    description: Get feed successfully.
+                    schema:
+                        $ref: '#/definitions/getFeedResponse'
+                "401":
+                    description: Auth Unauthorized Response
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+                "500":
+                    description: Internal Server Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+            security:
+                - bearerAuth: []
+            summary: Feed_GET
+            tags:
+                - feed
+    /feed/preference:
+        post:
+            consumes:
+                - application/json
+            description: Create Feed Preference
+            operationId: CreateFeedPreference
+            parameters:
+                - description: X Client Id
+                  in: header
+                  name: X-Client-Id
+                  required: true
+                  type: string
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/createFeedPreferenceRequest'
+            produces:
+                - application/json
+            responses:
+                "201":
+                    description: Create feed preference successfully.
+                    schema:
+                        $ref: '#/definitions/createFeedPreferenceResponse'
+                "400":
+                    description: Validation Error
+                    schema:
+                        $ref: '#/definitions/publicHttpValidationError'
+                "401":
+                    description: Auth Unauthorized Response
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+                "409":
+                    description: Conflict Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+                "500":
+                    description: Internal Server Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+            summary: FeedPreference_POST
+            tags:
+                - feed
+    /feed/swipe:
+        post:
+            consumes:
+                - application/json
+            description: Swipe Feed
+            operationId: SwipeFeed
+            parameters:
+                - description: X Client Id
+                  in: header
+                  name: X-Client-Id
+                  required: true
+                  type: string
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/swipeFeedRequest'
+            produces:
+                - application/json
+            responses:
+                "201":
+                    description: Swipe feed successfully.
+                    schema:
+                        $ref: '#/definitions/swipeFeedResponse'
+                "400":
+                    description: Validation Error
+                    schema:
+                        $ref: '#/definitions/publicHttpValidationError'
+                "401":
+                    description: Auth Unauthorized Response
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+                "409":
+                    description: Conflict Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+                "500":
+                    description: Internal Server Error
+                    schema:
+                        $ref: '#/definitions/publicHttpError'
+            summary: SwipeFeed_POST
+            tags:
+                - feed
+definitions:
+    createFeedPreferenceRequest:
+        properties:
+            gender:
+                $ref: '#/definitions/gender'
+            location:
+                $ref: '#/definitions/location'
+            max_age:
+                description: the Maximum Age
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+            min_age:
+                description: the Minimum Age
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+        title: Create Feed Preference Request
+        type: object
+    createFeedPreferenceResponse:
+        properties:
+            data:
+                $ref: '#/definitions/preference'
+            message:
+                example: A success message
+                type: string
+                x-nullable: false
+                x-order: !!float 2
+            success:
+                example: true
+                type: boolean
+                x-nullable: false
+                x-order: !!float 1
+        required:
+            - success
+        title: Create Feed Preference Response
+        type: object
+    createdAt:
+        format: date-time
+        type: string
+    feed:
+        properties:
+            age:
+                description: the User Age
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 4
+            gender:
+                description: the User Gender
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 3
+            id:
+                description: the User Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 1
+            location:
+                description: the User Location
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 5
+            name:
+                description: the User Name
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 2
+        title: Feed
+        type: object
+        x-nullable: true
+        x-omitempty: false
+    gender:
+        enum:
+            - MALE
+            - FEMALE
+        title: User Gender
+        type: string
+    getFeedResponse:
+        properties:
+            data:
+                items:
+                    $ref: '#/definitions/feed'
+                type: array
+                x-order: !!float 3
+            message:
+                example: A success message
+                type: string
+                x-order: !!float 2
+            pagination:
+                $ref: '#/definitions/pagination'
+            success:
+                example: true
+                type: boolean
+                x-nullable: false
+                x-order: !!float 1
+        required:
+            - success
+        title: Get Feed Response
+        type: object
+    httpValidationErrorDetail:
+        properties:
+            error:
+                description: Error describing field validation failure
+                type: string
+            in:
+                description: Indicates how the invalid field was provided
+                type: string
+            key:
+                description: Key of field failing validation
+                type: string
+        type: object
+    jWT:
+        properties:
+            token:
+                description: the Token
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 1
+        title: Json Web Token
+        type: object
+        x-nullable: true
+        x-omitempty: false
+    location:
+        enum:
+            - JAKARTA
+            - PALEMBANG
+            - DENPASAR
+        title: Location City
+        type: string
+    loginUserRequest:
+        properties:
+            email:
+                description: the Email
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+            password:
+                description: the Password
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+        title: Login User Request
+        type: object
+    loginUserResponse:
+        properties:
+            data:
+                $ref: '#/definitions/jWT'
+            message:
+                example: A success message
+                type: string
+                x-nullable: false
+                x-order: !!float 2
+            success:
+                example: true
+                type: boolean
+                x-nullable: false
+                x-order: !!float 1
+        required:
+            - success
+        title: Login User Response
+        type: object
+    pagination:
+        properties:
+            current_data:
+                description: number of data returned
+                example: !!float 10
+                type: integer
+            current_page:
+                description: '[offset only] number of current page'
+                example: !!float 1
+                type: integer
+            next_page:
+                type: integer
+                x-nullable: true
+                x-omitempty: true
+            next_url:
+                description: url of the next page if exist
+                example: /?offset=10&limit=5
+                type: string
+            prev_page:
+                type: integer
+                x-nullable: true
+                x-omitempty: true
+            prev_url:
+                description: url of the previous page if exist
+                example: /?offset=0&limit=5
+                type: string
+            total_data:
+                description: number of total data that can be acquired
+                example: !!float 2500
+                type: integer
+            total_pages:
+                description: '[offset only] number of total pages'
+                example: !!float 100
+                type: integer
+        title: Pagination
+        type: object
+    preference:
+        properties:
+            created_at:
+                $ref: '#/definitions/createdAt'
+            gender:
+                description: the Gender
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 3
+            id:
+                description: the Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 1
+            location:
+                description: the Location
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 6
+            max_age:
+                description: the Maximum Age
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 5
+            min_age:
+                description: the Minimum Age
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 4
+            user_id:
+                description: the User Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 2
+        title: Preference
+        type: object
+        x-nullable: true
+        x-omitempty: false
+    publicHttpError:
+        properties:
+            data:
+                properties:
+                    detail:
+                        description: More detailed, human-readable, optional explanation of the error
+                        example: Forbidden
+                        type: string
+                    status:
+                        description: HTTP status code returned for the error
+                        example: !!float 403
+                        format: int64
+                        maximum: !!float 599
+                        minimum: !!float 100
+                        type: integer
+                        x-go-name: Code
+                    type:
+                        description: Type of error returned, should be used for client-side error handling
+                        example: generic
+                        type: string
+                type: object
+                x-order: !!float 3
+            message:
+                description: Short, human-readable description of the error
+                example: User is lacking permission to access this resource
+                type: string
+                x-order: !!float 2
+            success:
+                example: true
+                type: boolean
+                x-nullable: false
+                x-order: !!float 1
+            trace_id:
+                description: reference id to trace
+                example: Ube4ab48e26e7d21c13dcbf07f8cebc0a
+                type: string
+        required:
+            - success
+        type: object
+    publicHttpValidationError:
+        properties:
+            data:
+                properties:
+                    detail:
+                        description: More detailed, human-readable, optional explanation of the error
+                        example: Forbidden
+                        type: string
+                    status:
+                        description: HTTP status code returned for the error
+                        example: !!float 403
+                        format: int64
+                        maximum: !!float 599
+                        minimum: !!float 100
+                        type: integer
+                        x-go-name: Code
+                    type:
+                        description: Type of error returned, should be used for client-side error handling
+                        example: generic
+                        type: string
+                    validation_errors:
+                        description: List of errors received while validating payload against schema
+                        items:
+                            $ref: '#/definitions/httpValidationErrorDetail'
+                        type: array
+                type: object
+                x-order: !!float 3
+            message:
+                description: Short, human-readable description of the error
+                example: User is lacking permission to access this resource
+                type: string
+                x-order: !!float 2
+            success:
+                example: true
+                type: boolean
+                x-nullable: false
+                x-order: !!float 1
+        required:
+            - success
+        type: object
+    signupUserRequest:
+        properties:
+            birth_date:
+                description: the Birth Date
+                format: string
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+            email:
+                description: the Email
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+            gender:
+                $ref: '#/definitions/gender'
+            location:
+                $ref: '#/definitions/location'
+            name:
+                description: the Name
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+            password:
+                description: the Password
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+        title: Signup User Request
+        type: object
+    signupUserResponse:
+        properties:
+            data:
+                $ref: '#/definitions/user'
+            message:
+                example: A success message
+                type: string
+                x-nullable: false
+                x-order: !!float 2
+            success:
+                example: true
+                type: boolean
+                x-nullable: false
+                x-order: !!float 1
+        required:
+            - success
+        title: Signup User Response
+        type: object
+    swipe:
+        properties:
+            created_at:
+                $ref: '#/definitions/createdAt'
+            from_user_id:
+                description: the From User Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 2
+            id:
+                description: the Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 1
+            swipe_type:
+                $ref: '#/definitions/swipeType'
+            to_user_id:
+                description: the To User Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 3
+        title: Swipe
+        type: object
+        x-nullable: true
+        x-omitempty: false
+    swipeFeedRequest:
+        properties:
+            swipe_type:
+                $ref: '#/definitions/swipeType'
+            to_user_id:
+                description: the To User Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+        title: Swipe Feed Request
+        type: object
+    swipeFeedResponse:
+        properties:
+            data:
+                $ref: '#/definitions/swipe'
+            message:
+                example: A success message
+                type: string
+                x-nullable: false
+                x-order: !!float 2
+            success:
+                example: true
+                type: boolean
+                x-nullable: false
+                x-order: !!float 1
+        required:
+            - success
+        title: Swipe Feed Response
+        type: object
+    swipeType:
+        enum:
+            - RIGHT
+            - LEFT
+        title: Swipe Type
+        type: string
+    user:
+        properties:
+            birth_date:
+                description: the Birth Date
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 5
+            created_at:
+                $ref: '#/definitions/createdAt'
+            email:
+                description: the Email
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 2
+            gender:
+                $ref: '#/definitions/gender'
+            id:
+                description: the Id
+                type: integer
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 1
+            location:
+                description: the Location
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 6
+            name:
+                description: the Name
+                type: string
+                x-go-custom-tag: binding:"required"
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 3
+        title: User
+        type: object
+        x-nullable: true
+        x-omitempty: false
+securityDefinitions:
+    bearerAuth:
+        description: |-
+            Access token for application access, **must** include "Bearer " prefix.
+            Example: `Bearer b4a94a42-3ea2-4af3-9699-8bcbfee6e6d2`
+        in: header
+        name: Authorization
+        type: apiKey
+        x-keyPrefix: 'Bearer '

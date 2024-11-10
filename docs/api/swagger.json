@@ -1,0 +1,979 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Dealls Dating Service Documentation",
+    "title": "Dealls Dating Service API",
+    "version": "0.0.4"
+  },
+  "basePath": "/v1/api",
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "description": "Login User",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "auth"
+        ],
+        "summary": "LoginUser_POST",
+        "operationId": "LoginUser",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "X Client Id",
+            "name": "X-Client-Id",
+            "in": "header",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/loginUserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login user successfully.",
+            "schema": {
+              "$ref": "#/definitions/loginUserResponse"
+            }
+          },
+          "400": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpValidationError"
+            }
+          },
+          "401": {
+            "description": "Auth Unauthorized Response",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "description": "Signup User",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "auth"
+        ],
+        "summary": "SignupUser_POST",
+        "operationId": "SignupUser",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "X Client Id",
+            "name": "X-Client-Id",
+            "in": "header",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/signupUserRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Signup user successfully.",
+            "schema": {
+              "$ref": "#/definitions/signupUserResponse"
+            }
+          },
+          "400": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpValidationError"
+            }
+          },
+          "409": {
+            "description": "Conflict Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          }
+        }
+      }
+    },
+    "/feed": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Get Feed",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "feed"
+        ],
+        "summary": "Feed_GET",
+        "operationId": "GetFeed",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "X Client Id",
+            "name": "X-Client-Id",
+            "in": "header",
+            "required": true
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "default": 1,
+            "x-go-name": "PaginationPage",
+            "description": "Pagination page",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "default": 10,
+            "x-go-name": "PaginationSize",
+            "description": "Pagination size",
+            "name": "size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get feed successfully.",
+            "schema": {
+              "$ref": "#/definitions/getFeedResponse"
+            }
+          },
+          "401": {
+            "description": "Auth Unauthorized Response",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          }
+        }
+      }
+    },
+    "/feed/preference": {
+      "post": {
+        "description": "Create Feed Preference",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "feed"
+        ],
+        "summary": "FeedPreference_POST",
+        "operationId": "CreateFeedPreference",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "X Client Id",
+            "name": "X-Client-Id",
+            "in": "header",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createFeedPreferenceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create feed preference successfully.",
+            "schema": {
+              "$ref": "#/definitions/createFeedPreferenceResponse"
+            }
+          },
+          "400": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpValidationError"
+            }
+          },
+          "401": {
+            "description": "Auth Unauthorized Response",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          },
+          "409": {
+            "description": "Conflict Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          }
+        }
+      }
+    },
+    "/feed/swipe": {
+      "post": {
+        "description": "Swipe Feed",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "feed"
+        ],
+        "summary": "SwipeFeed_POST",
+        "operationId": "SwipeFeed",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "X Client Id",
+            "name": "X-Client-Id",
+            "in": "header",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/swipeFeedRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Swipe feed successfully.",
+            "schema": {
+              "$ref": "#/definitions/swipeFeedResponse"
+            }
+          },
+          "400": {
+            "description": "Validation Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpValidationError"
+            }
+          },
+          "401": {
+            "description": "Auth Unauthorized Response",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          },
+          "409": {
+            "description": "Conflict Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/publicHttpError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "createFeedPreferenceRequest": {
+      "type": "object",
+      "title": "Create Feed Preference Request",
+      "properties": {
+        "gender": {
+          "$ref": "#/definitions/gender"
+        },
+        "location": {
+          "$ref": "#/definitions/location"
+        },
+        "max_age": {
+          "description": "the Maximum Age",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        },
+        "min_age": {
+          "description": "the Minimum Age",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        }
+      }
+    },
+    "createFeedPreferenceResponse": {
+      "type": "object",
+      "title": "Create Feed Preference Response",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-nullable": false,
+          "x-order": 1,
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "x-nullable": false,
+          "x-order": 2,
+          "example": "A success message"
+        },
+        "data": {
+          "$ref": "#/definitions/preference"
+        }
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "feed": {
+      "type": "object",
+      "title": "Feed",
+      "properties": {
+        "id": {
+          "description": "the User Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 1
+        },
+        "name": {
+          "description": "the User Name",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 2
+        },
+        "gender": {
+          "description": "the User Gender",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 3
+        },
+        "age": {
+          "description": "the User Age",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 4
+        },
+        "location": {
+          "description": "the User Location",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 5
+        }
+      },
+      "x-nullable": true,
+      "x-omitempty": false
+    },
+    "gender": {
+      "type": "string",
+      "title": "User Gender",
+      "enum": [
+        "MALE",
+        "FEMALE"
+      ]
+    },
+    "getFeedResponse": {
+      "type": "object",
+      "title": "Get Feed Response",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-nullable": false,
+          "x-order": 1,
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "x-order": 2,
+          "example": "A success message"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/feed"
+          },
+          "x-order": 3
+        },
+        "pagination": {
+          "$ref": "#/definitions/pagination"
+        }
+      }
+    },
+    "httpValidationErrorDetail": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "description": "Error describing field validation failure",
+          "type": "string"
+        },
+        "in": {
+          "description": "Indicates how the invalid field was provided",
+          "type": "string"
+        },
+        "key": {
+          "description": "Key of field failing validation",
+          "type": "string"
+        }
+      }
+    },
+    "jWT": {
+      "type": "object",
+      "title": "Json Web Token",
+      "properties": {
+        "token": {
+          "description": "the Token",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 1
+        }
+      },
+      "x-nullable": true,
+      "x-omitempty": false
+    },
+    "location": {
+      "type": "string",
+      "title": "Location City",
+      "enum": [
+        "JAKARTA",
+        "PALEMBANG",
+        "DENPASAR"
+      ]
+    },
+    "loginUserRequest": {
+      "type": "object",
+      "title": "Login User Request",
+      "properties": {
+        "email": {
+          "description": "the Email",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        },
+        "password": {
+          "description": "the Password",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        }
+      }
+    },
+    "loginUserResponse": {
+      "type": "object",
+      "title": "Login User Response",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-nullable": false,
+          "x-order": 1,
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "x-nullable": false,
+          "x-order": 2,
+          "example": "A success message"
+        },
+        "data": {
+          "$ref": "#/definitions/jWT"
+        }
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "title": "Pagination",
+      "properties": {
+        "current_data": {
+          "description": "number of data returned",
+          "type": "integer",
+          "example": 10
+        },
+        "current_page": {
+          "description": "[offset only] number of current page",
+          "type": "integer",
+          "example": 1
+        },
+        "next_page": {
+          "type": "integer",
+          "x-nullable": true,
+          "x-omitempty": true
+        },
+        "next_url": {
+          "description": "url of the next page if exist",
+          "type": "string",
+          "example": "/?offset=10\u0026limit=5"
+        },
+        "prev_page": {
+          "type": "integer",
+          "x-nullable": true,
+          "x-omitempty": true
+        },
+        "prev_url": {
+          "description": "url of the previous page if exist",
+          "type": "string",
+          "example": "/?offset=0\u0026limit=5"
+        },
+        "total_data": {
+          "description": "number of total data that can be acquired",
+          "type": "integer",
+          "example": 2500
+        },
+        "total_pages": {
+          "description": "[offset only] number of total pages",
+          "type": "integer",
+          "example": 100
+        }
+      }
+    },
+    "preference": {
+      "type": "object",
+      "title": "Preference",
+      "properties": {
+        "id": {
+          "description": "the Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 1
+        },
+        "user_id": {
+          "description": "the User Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 2
+        },
+        "gender": {
+          "description": "the Gender",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 3
+        },
+        "min_age": {
+          "description": "the Minimum Age",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 4
+        },
+        "max_age": {
+          "description": "the Maximum Age",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 5
+        },
+        "location": {
+          "description": "the Location",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 6
+        },
+        "created_at": {
+          "$ref": "#/definitions/createdAt"
+        }
+      },
+      "x-nullable": true,
+      "x-omitempty": false
+    },
+    "publicHttpError": {
+      "type": "object",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-nullable": false,
+          "x-order": 1,
+          "example": true
+        },
+        "message": {
+          "description": "Short, human-readable description of the error",
+          "type": "string",
+          "x-order": 2,
+          "example": "User is lacking permission to access this resource"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "detail": {
+              "description": "More detailed, human-readable, optional explanation of the error",
+              "type": "string",
+              "example": "Forbidden"
+            },
+            "status": {
+              "description": "HTTP status code returned for the error",
+              "type": "integer",
+              "format": "int64",
+              "maximum": 599,
+              "minimum": 100,
+              "x-go-name": "Code",
+              "example": 403
+            },
+            "type": {
+              "description": "Type of error returned, should be used for client-side error handling",
+              "type": "string",
+              "example": "generic"
+            }
+          },
+          "x-order": 3
+        },
+        "trace_id": {
+          "description": "reference id to trace",
+          "type": "string",
+          "example": "Ube4ab48e26e7d21c13dcbf07f8cebc0a"
+        }
+      }
+    },
+    "publicHttpValidationError": {
+      "type": "object",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-nullable": false,
+          "x-order": 1,
+          "example": true
+        },
+        "message": {
+          "description": "Short, human-readable description of the error",
+          "type": "string",
+          "x-order": 2,
+          "example": "User is lacking permission to access this resource"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "detail": {
+              "description": "More detailed, human-readable, optional explanation of the error",
+              "type": "string",
+              "example": "Forbidden"
+            },
+            "status": {
+              "description": "HTTP status code returned for the error",
+              "type": "integer",
+              "format": "int64",
+              "maximum": 599,
+              "minimum": 100,
+              "x-go-name": "Code",
+              "example": 403
+            },
+            "type": {
+              "description": "Type of error returned, should be used for client-side error handling",
+              "type": "string",
+              "example": "generic"
+            },
+            "validation_errors": {
+              "description": "List of errors received while validating payload against schema",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/httpValidationErrorDetail"
+              }
+            }
+          },
+          "x-order": 3
+        }
+      }
+    },
+    "signupUserRequest": {
+      "type": "object",
+      "title": "Signup User Request",
+      "properties": {
+        "birth_date": {
+          "description": "the Birth Date",
+          "type": "string",
+          "format": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        },
+        "email": {
+          "description": "the Email",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        },
+        "gender": {
+          "$ref": "#/definitions/gender"
+        },
+        "location": {
+          "$ref": "#/definitions/location"
+        },
+        "name": {
+          "description": "the Name",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        },
+        "password": {
+          "description": "the Password",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        }
+      }
+    },
+    "signupUserResponse": {
+      "type": "object",
+      "title": "Signup User Response",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-nullable": false,
+          "x-order": 1,
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "x-nullable": false,
+          "x-order": 2,
+          "example": "A success message"
+        },
+        "data": {
+          "$ref": "#/definitions/user"
+        }
+      }
+    },
+    "swipe": {
+      "type": "object",
+      "title": "Swipe",
+      "properties": {
+        "id": {
+          "description": "the Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 1
+        },
+        "from_user_id": {
+          "description": "the From User Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 2
+        },
+        "to_user_id": {
+          "description": "the To User Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 3
+        },
+        "created_at": {
+          "$ref": "#/definitions/createdAt"
+        },
+        "swipe_type": {
+          "$ref": "#/definitions/swipeType"
+        }
+      },
+      "x-nullable": true,
+      "x-omitempty": false
+    },
+    "swipeFeedRequest": {
+      "type": "object",
+      "title": "Swipe Feed Request",
+      "properties": {
+        "swipe_type": {
+          "$ref": "#/definitions/swipeType"
+        },
+        "to_user_id": {
+          "description": "the To User Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false
+        }
+      }
+    },
+    "swipeFeedResponse": {
+      "type": "object",
+      "title": "Swipe Feed Response",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "x-nullable": false,
+          "x-order": 1,
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "x-nullable": false,
+          "x-order": 2,
+          "example": "A success message"
+        },
+        "data": {
+          "$ref": "#/definitions/swipe"
+        }
+      }
+    },
+    "swipeType": {
+      "type": "string",
+      "title": "Swipe Type",
+      "enum": [
+        "RIGHT",
+        "LEFT"
+      ]
+    },
+    "user": {
+      "type": "object",
+      "title": "User",
+      "properties": {
+        "id": {
+          "description": "the Id",
+          "type": "integer",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 1
+        },
+        "email": {
+          "description": "the Email",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 2
+        },
+        "name": {
+          "description": "the Name",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 3
+        },
+        "birth_date": {
+          "description": "the Birth Date",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 5
+        },
+        "location": {
+          "description": "the Location",
+          "type": "string",
+          "x-go-custom-tag": "binding:\"required\"",
+          "x-nullable": false,
+          "x-omitempty": false,
+          "x-order": 6
+        },
+        "created_at": {
+          "$ref": "#/definitions/createdAt"
+        },
+        "gender": {
+          "$ref": "#/definitions/gender"
+        }
+      },
+      "x-nullable": true,
+      "x-omitempty": false
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "description": "Access token for application access, **must** include \"Bearer \" prefix.\nExample: `Bearer b4a94a42-3ea2-4af3-9699-8bcbfee6e6d2`",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "x-keyPrefix": "Bearer "
+    }
+  }
+}
