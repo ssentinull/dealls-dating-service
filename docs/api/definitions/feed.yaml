@@ -55,3 +55,45 @@ definitions:
         type: string
       created_at:
         $ref: './common.yaml#/definitions/CreatedAt'
+
+  Feed:
+    title: Feed
+    type: object
+    x-omitempty: false
+    x-nullable: true
+    properties:
+      id:
+        description: the User Id
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 1
+        type: integer
+      name:
+        description: the User Name
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 2
+        type: string
+      gender:
+        description: the User Gender
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 3
+        type: string
+      age:
+        description: the User Age
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 4
+        type: integer
+      location:
+        description: the User Location
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 5
+        type: string

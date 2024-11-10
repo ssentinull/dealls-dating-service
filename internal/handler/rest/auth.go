@@ -23,7 +23,7 @@ func (r *rest) SignupUser(c *gin.Context) {
 		return
 	}
 
-	r.responseSuccess(c, http.StatusOK, result, "signup user successfully")
+	r.responseSuccess(c, http.StatusCreated, result, "signup user successfully")
 }
 
 func (r *rest) LoginUser(c *gin.Context) {

@@ -24,6 +24,7 @@ type (
 	}
 
 	GetUserParams struct {
+		Id    int64
 		Email string
 	}
 

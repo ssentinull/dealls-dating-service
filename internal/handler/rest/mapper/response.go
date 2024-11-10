@@ -34,3 +34,13 @@ func MapPreferenceModelToPreferenceType(src model.PreferenceModel) *types.Prefer
 		CreatedAt: types.CreatedAt(src.CreatedAt),
 	}
 }
+
+func MapFeedModelToFeedType(src model.FeedModel) *types.Feed {
+	return &types.Feed{
+		ID:       src.Id,
+		Name:     src.Name,
+		Gender:   src.Gender,
+		Age:      src.Age,
+		Location: src.Location,
+	}
+}

@@ -12,22 +12,22 @@ type SortOption map[string]struct {
 	Insensitive bool
 }
 
-func ValidateLimit(limit *int64) *int64 {
+func ValidateSize(size *int64) *int64 {
 	min := int64(10)
 	max := int64(100)
-	if limit == nil {
+	if size == nil {
 		return &min
 	}
 
-	if *limit <= 0 {
+	if *size <= 0 {
 		return &min
 	}
 
-	if *limit > max {
+	if *size > max {
 		return &max
 	}
 
-	return limit
+	return size
 }
 
 func ValidatePage(page *int64) *int64 {

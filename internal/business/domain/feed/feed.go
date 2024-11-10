@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	"github.com/ssentinull/dealls-dating-service/internal/types"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/cache"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/libsql"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/logger"
@@ -15,6 +16,7 @@ import (
 type DomainItf interface {
 	CreatePreference(ctx context.Context, tx *gorm.DB, p model.PreferenceModel) (model.PreferenceModel, error)
 	GetPreferenceByParams(ctx context.Context, p model.GetPreferenceParams) (model.PreferenceModel, error)
+	GetFeedByParams(ctx context.Context, p model.GetFeedParams) ([]model.FeedModel, *types.Pagination, error)
 }
 
 type feedImpl struct {

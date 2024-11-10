@@ -30,8 +30,6 @@ paths:
             $ref: "../responses/auth.yaml#/definitions/SignupUserResponse"
         "400":
           $ref: "../responses/error.yaml#/responses/ValidationErrorResponse"
-        "401":
-          $ref: "../responses/error.yaml#/responses/AuthUnauthorizedResponse"
         "409":
           $ref: "../responses/error.yaml#/responses/ConflictErrorResponse"
         "500":
@@ -65,7 +63,5 @@ paths:
           $ref: "../responses/error.yaml#/responses/ValidationErrorResponse"
         "401":
           $ref: "../responses/error.yaml#/responses/AuthUnauthorizedResponse"
-        "409":
-          $ref: "../responses/error.yaml#/responses/ConflictErrorResponse"
         "500":
           $ref: "../responses/error.yaml#/responses/InternalServerErrorResponse"

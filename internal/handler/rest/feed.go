@@ -28,5 +28,26 @@ func (r *rest) CreatePreference(c *gin.Context) {
 		return
 	}
 
-	r.responseSuccess(c, http.StatusOK, result, "create preference successfully")
+	r.responseSuccess(c, http.StatusCreated, result, "create preference successfully")
+}
+
+func (r *rest) GetFeed(c *gin.Context) {
+	query := feedTypes.NewGetFeedParams()
+	if err := r.parser.Validator().BindAndValidateBody(c, &query); err != nil {
+		r.ResponseError(c, err, http.StatusBadRequest, "params validation error")
+		return
+	}
+
+	param := model.GetFeedParams{
+		UserId:        r.auth.GetID(c),
+		GetFeedParams: query,
+	}
+
+	result, pagination, err := r.uc.Feed.GetFeed(c.Request.Context(), param)
+	if err != nil {
+		r.ResponseError(c, x.WrapWithCode(err, x.GetCode(err), "GetFeed"), "Get Feed")
+		return
+	}
+
+	r.responseSuccess(c, http.StatusOK, result, pagination, "get feed successfully")
 }

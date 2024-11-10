@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
@@ -206,10 +207,10 @@ func (r *rest) ResponseError(c *gin.Context, err error, opts ...interface{}) {
 
 func (r *rest) responseSuccess(c *gin.Context, code int, resp interface{}, opts ...interface{}) {
 	var (
-		raw     []byte
-		err     error
-		message string
-		// pagination *types.Pagination
+		raw        []byte
+		err        error
+		message    string
+		pagination *types.Pagination
 	)
 
 	for _, v := range opts {
@@ -218,26 +219,26 @@ func (r *rest) responseSuccess(c *gin.Context, code int, resp interface{}, opts 
 			code = val
 		case string:
 			message = val
-			// case *types.Pagination:
-			// 	baseURL := c.FullPath()
-			// 	if val.NextPage != nil {
-			// 		nextQuery := c.Request.URL.Query()
-			// 		nextQuery.Set("page", strconv.Itoa(int(*val.NextPage)))
-			// 		val.NextURL = fmt.Sprintf("%s?%s", baseURL, nextQuery.Encode())
+		case *types.Pagination:
+			baseURL := c.FullPath()
+			if val.NextPage != nil {
+				nextQuery := c.Request.URL.Query()
+				nextQuery.Set("page", strconv.Itoa(int(*val.NextPage)))
+				val.NextURL = fmt.Sprintf("%s?%s", baseURL, nextQuery.Encode())
 
-			// 		// purge NextPage Number to omit response the page number
-			// 		val.NextPage = nil
-			// 	}
-			// 	if val.PrevPage != nil {
-			// 		prevQuery := c.Request.URL.Query()
-			// 		prevQuery.Set("page", strconv.Itoa(int(*val.PrevPage)))
-			// 		val.PrevURL = fmt.Sprintf("%s?%s", baseURL, prevQuery.Encode())
+				// purge NextPage Number to omit response the page number
+				val.NextPage = nil
+			}
+			if val.PrevPage != nil {
+				prevQuery := c.Request.URL.Query()
+				prevQuery.Set("page", strconv.Itoa(int(*val.PrevPage)))
+				val.PrevURL = fmt.Sprintf("%s?%s", baseURL, prevQuery.Encode())
 
-			// 		// purge PrevPage Number to omit response the page number
-			// 		val.PrevPage = nil
-			// 	}
+				// purge PrevPage Number to omit response the page number
+				val.PrevPage = nil
+			}
 
-			// 	pagination = val
+			pagination = val
 		}
 	}
 
@@ -266,6 +267,20 @@ func (r *rest) responseSuccess(c *gin.Context, code int, resp interface{}, opts 
 			Success: true,
 			Message: message,
 			Data:    resultType,
+		}
+
+		raw, err = json.Marshal(res)
+	case []model.FeedModel:
+		resultTypes := make([]*types.Feed, 0)
+		for _, d := range data {
+			resultTypes = append(resultTypes, mapper.MapFeedModelToFeedType(d))
+		}
+
+		res := types.GetFeedResponse{
+			Success:    true,
+			Message:    message,
+			Data:       resultTypes,
+			Pagination: pagination,
 		}
 
 		raw, err = json.Marshal(res)

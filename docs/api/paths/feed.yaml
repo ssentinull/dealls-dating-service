@@ -36,3 +36,29 @@ paths:
           $ref: "../responses/error.yaml#/responses/ConflictErrorResponse"
         "500":
           $ref: "../responses/error.yaml#/responses/InternalServerErrorResponse"
+
+  /feed:
+    get:
+      description: Get Feed
+      summary: Feed_GET
+      operationId: GetFeed
+      tags:
+        - feed
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - $ref: '../definitions/header.yaml#/parameters/XClientId'
+        - $ref: '../definitions/param.yaml#/parameters/PaginationPage'
+        - $ref: '../definitions/param.yaml#/parameters/PaginationSize'
+      responses:
+        '200':
+          description: Get feed successfully.
+          schema:
+            $ref: '../responses/feed.yaml#/definitions/GetFeedResponse'
+        "401":
+          $ref: "../responses/error.yaml#/responses/AuthUnauthorizedResponse"
+        "500":
+          $ref: "../responses/error.yaml#/responses/InternalServerErrorResponse"
+      security:
+        - bearerAuth: [ ]

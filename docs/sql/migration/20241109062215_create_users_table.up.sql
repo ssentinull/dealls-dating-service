@@ -12,4 +12,6 @@ CREATE TABLE IF NOT EXISTS "users" (
     "deleted_at" TIMESTAMP
 );
 
-CREATE INDEX users_email_idx ON users(email);
+CREATE INDEX IF NOT EXISTS users_email_idx ON users(email);
+CREATE INDEX IF NOT EXISTS users_birth_date_idx ON users(birth_date);
+CREATE INDEX IF NOT EXISTS users_deleted_at_idx ON users(deleted_at);

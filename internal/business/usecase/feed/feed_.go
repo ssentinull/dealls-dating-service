@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	"github.com/ssentinull/dealls-dating-service/internal/types"
 	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"gorm.io/gorm"
@@ -39,4 +40,34 @@ func (f *feedUc) CreatePreference(ctx context.Context, params model.CreatePrefer
 	}
 
 	return res, nil
+}
+
+func (f *feedUc) GetFeed(ctx context.Context, params model.GetFeedParams) ([]model.FeedModel, *types.Pagination, error) {
+	if _, err := f.userDom.GetUserByParams(ctx, model.GetUserParams{Id: params.UserId}); err != nil {
+		f.efLogger.Error(err)
+		return []model.FeedModel{}, nil, x.WrapWithCode(err, http.StatusNotFound, "user not found")
+	}
+
+	preference, err := f.feedDom.GetPreferenceByParams(ctx, model.GetPreferenceParams{UserId: params.UserId})
+	if err != nil {
+		f.efLogger.Error(err)
+		return []model.FeedModel{}, nil, err
+	}
+
+	getUserListParam := model.GetFeedParams{
+		UserId:        params.UserId,
+		Gender:        preference.Gender,
+		Location:      preference.Location,
+		MinAge:        preference.MinAge,
+		MaxAge:        preference.MaxAge,
+		GetFeedParams: params.GetFeedParams,
+	}
+
+	feed, pagination, err := f.feedDom.GetFeedByParams(ctx, getUserListParam)
+	if err != nil {
+		f.efLogger.Error(err)
+		return []model.FeedModel{}, nil, err
+	}
+
+	return feed, pagination, nil
 }

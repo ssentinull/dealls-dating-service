@@ -28,14 +28,18 @@ func (u *userImpl) createUserSQL(ctx context.Context, tx *gorm.DB, p model.UserM
 }
 
 func (u *userImpl) getUserSQL(ctx context.Context, p model.GetUserParams) (model.UserModel, error) {
-	db := u.sql.Leader()
+	db := u.sql.Leader().WithContext(ctx)
+
+	if p.Id > 0 {
+		db = db.Where("id = ?", p.Id)
+	}
+
+	if p.Email != "" {
+		db = db.Where("email = ?", p.Email)
+	}
 
 	var result model.UserModel
-	err := db.WithContext(ctx).
-		Where("email = ?", p.Email).
-		Take(&result).
-		Error
-	if err != nil {
+	if err := db.Take(&result).Error; err != nil {
 		u.efLogger.Error(err)
 		return result, err
 	}

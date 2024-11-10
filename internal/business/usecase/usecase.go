@@ -36,6 +36,7 @@ func Init(
 		),
 		Feed: feed.InitFeedUsecase(
 			dom.Feed,
+			dom.User,
 			efLogger,
 			parser.JSONParser(),
 			stdAuth,

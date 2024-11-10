@@ -25,3 +25,26 @@ definitions:
         $ref: '../definitions/feed.yaml#/definitions/Preference'
     required:
       - success
+
+  GetFeedResponse:
+    title: Get Feed Response
+    type: object
+    properties:
+      success:
+        example: true
+        type: boolean
+        x-nullable: false
+        x-order: 1
+      message:
+        example: A success message
+        type: string
+        x-order: 2
+      data:
+        x-order: 3
+        type: array
+        items:
+          $ref: '../definitions/feed.yaml#/definitions/Feed'
+      pagination:
+        $ref: '../definitions/common.yaml#/definitions/Pagination'
+    required:
+      - success

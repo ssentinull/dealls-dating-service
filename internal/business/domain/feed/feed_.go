@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
+	"github.com/ssentinull/dealls-dating-service/internal/types"
 	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"gorm.io/gorm"
@@ -27,4 +28,14 @@ func (f *feedImpl) GetPreferenceByParams(ctx context.Context, p model.GetPrefere
 	}
 
 	return result, nil
+}
+
+func (f *feedImpl) GetFeedByParams(ctx context.Context, p model.GetFeedParams) ([]model.FeedModel, *types.Pagination, error) {
+	result, pagination, err := f.getFeedSQL(ctx, p)
+	if err != nil {
+		err = x.WrapPassCode(err, "getFeedSQL")
+		return []model.FeedModel{}, nil, err
+	}
+
+	return result, pagination, nil
 }

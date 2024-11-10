@@ -21,7 +21,7 @@ definitions:
         type: integer
         x-nullable: true
         x-omitempty: true
-      current_datas:
+      current_data:
         description: number of data returned
         type: integer
         example: 10
@@ -29,8 +29,8 @@ definitions:
         description: '[offset only] number of total pages'
         type: integer
         example: 100
-      total_datas:
-        description: number of total datas that can be acquired
+      total_data:
+        description: number of total data that can be acquired
         type: integer
         example: 2500
       next_url:
