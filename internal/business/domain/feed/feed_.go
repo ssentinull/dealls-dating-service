@@ -39,3 +39,33 @@ func (f *feedImpl) GetFeedByParams(ctx context.Context, p model.GetFeedParams) (
 
 	return result, pagination, nil
 }
+
+func (f *feedImpl) CreateSwipe(ctx context.Context, tx *gorm.DB, p model.SwipeModel) (model.SwipeModel, error) {
+	result, err := f.createSwipeSQL(ctx, tx, p)
+	if err != nil {
+		err = x.WrapPassCode(err, "createSwipeSQL")
+		return result, err
+	}
+
+	return result, nil
+}
+
+func (f *feedImpl) GetSwipeByParams(ctx context.Context, p model.GetSwipeParams) (model.SwipeModel, error) {
+	result, err := f.getSwipeSQL(ctx, p)
+	if err != nil {
+		err = x.WrapPassCode(err, "getSwipeSQL")
+		return model.SwipeModel{}, err
+	}
+
+	return result, nil
+}
+
+func (f *feedImpl) CreateMatch(ctx context.Context, tx *gorm.DB, p model.MatchModel) (model.MatchModel, error) {
+	result, err := f.createMatchSQL(ctx, tx, p)
+	if err != nil {
+		err = x.WrapPassCode(err, "createMatchSQL")
+		return result, err
+	}
+
+	return result, nil
+}

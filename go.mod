@@ -1,8 +1,6 @@
 module github.com/ssentinull/dealls-dating-service
 
-go 1.21.4
-
-toolchain go1.22.0
+go 1.22
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0
@@ -20,6 +18,7 @@ require (
 	github.com/gojek/heimdall/v7 v7.0.3
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-migrate/migrate/v4 v4.15.2
+	github.com/guregu/null/v5 v5.0.0
 	github.com/json-iterator/go v1.1.12
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1
@@ -27,7 +26,7 @@ require (
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
-	go.uber.org/mock v0.4.0
+	golang.org/x/crypto v0.29.0
 	golang.org/x/text v0.20.0
 	gorm.io/driver/postgres v1.4.8
 	gorm.io/gorm v1.24.5
@@ -56,7 +55,6 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gojek/valkyrie v0.0.0-20180215180059-6aee720afcdf // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/guregu/null/v5 v5.0.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
@@ -92,8 +90,6 @@ require (
 	go.mongodb.org/mongo-driver v1.14.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/crypto v0.29.0 // indirect
-	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/sync v0.9.0 // indirect
 	golang.org/x/sys v0.27.0 // indirect

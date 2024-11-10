@@ -17,12 +17,12 @@ func (r *rest) CreatePreference(c *gin.Context) {
 		return
 	}
 
-	createPreferenceParam := model.CreatePreferenceParams{
+	createPreferenceParams := model.CreatePreferenceParams{
 		UserId:                     r.auth.GetID(c),
 		CreateFeedPreferenceParams: params,
 	}
 
-	result, err := r.uc.Feed.CreatePreference(c.Request.Context(), createPreferenceParam)
+	result, err := r.uc.Feed.CreatePreference(c.Request.Context(), createPreferenceParams)
 	if err != nil {
 		r.ResponseError(c, x.WrapWithCode(err, x.GetCode(err), "CreatePreference"), "Create Preference")
 		return
@@ -50,4 +50,25 @@ func (r *rest) GetFeed(c *gin.Context) {
 	}
 
 	r.responseSuccess(c, http.StatusOK, result, pagination, "get feed successfully")
+}
+
+func (r *rest) SwipeFeed(c *gin.Context) {
+	params := feedTypes.NewSwipeFeedParams()
+	if err := r.parser.Validator().BindAndValidateBody(c, &params); err != nil {
+		r.ResponseError(c, err, http.StatusBadRequest, "params validation error")
+		return
+	}
+
+	swipeFeedParams := model.SwipeFeedParams{
+		FromUserId:      r.auth.GetID(c),
+		SwipeFeedParams: params,
+	}
+
+	result, err := r.uc.Feed.SwipeFeed(c.Request.Context(), swipeFeedParams)
+	if err != nil {
+		r.ResponseError(c, x.WrapWithCode(err, x.GetCode(err), "SwipeFeed"), "Swipe Feed")
+		return
+	}
+
+	r.responseSuccess(c, http.StatusCreated, result, "swipe feed successfully")
 }

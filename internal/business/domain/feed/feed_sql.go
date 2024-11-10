@@ -132,3 +132,53 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 
 	return result, &pagination, nil
 }
+
+func (f *feedImpl) createSwipeSQL(ctx context.Context, tx *gorm.DB, p model.SwipeModel) (model.SwipeModel, error) {
+	if tx == nil {
+		tx = f.sql.Leader()
+	}
+
+	var result model.SwipeModel
+	if err := tx.WithContext(ctx).Create(&p).Error; err != nil {
+		f.efLogger.Error(err)
+		return result, x.Wrap(err, libsql.SomethingWentWrongWithDB)
+	}
+
+	result = p
+
+	return result, nil
+}
+
+func (f *feedImpl) getSwipeSQL(ctx context.Context, p model.GetSwipeParams) (model.SwipeModel, error) {
+	db := f.sql.Leader()
+
+	var result model.SwipeModel
+	err := db.WithContext(ctx).
+		Where("from_user_id = ?", p.FromUserId).
+		Where("to_user_id = ?", p.ToUserId).
+		Where("created_at::DATE = ?", p.CreatedAt.Format("2006-01-02")).
+		Take(&result).
+		Error
+	if err != nil {
+		f.efLogger.Error(err)
+		return result, err
+	}
+
+	return result, nil
+}
+
+func (f *feedImpl) createMatchSQL(ctx context.Context, tx *gorm.DB, p model.MatchModel) (model.MatchModel, error) {
+	if tx == nil {
+		tx = f.sql.Leader()
+	}
+
+	var result model.MatchModel
+	if err := tx.WithContext(ctx).Create(&p).Error; err != nil {
+		f.efLogger.Error(err)
+		return result, x.Wrap(err, libsql.SomethingWentWrongWithDB)
+	}
+
+	result = p
+
+	return result, nil
+}

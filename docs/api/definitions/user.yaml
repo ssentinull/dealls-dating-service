@@ -38,7 +38,7 @@ definitions:
         x-omitempty: false
         x-nullable: false
         x-order: 4
-        type: string
+        $ref: './enum.yaml#/definitions/Gender'
       birth_date:
         description: the Birth Date
         x-go-custom-tag: 'binding:"required"'
@@ -54,4 +54,9 @@ definitions:
         x-order: 6
         type: string
       created_at:
+        description: the Created At
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 7
         $ref: './common.yaml#/definitions/CreatedAt'

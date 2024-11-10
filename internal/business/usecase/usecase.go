@@ -35,6 +35,7 @@ func Init(
 			opt.Auth,
 		),
 		Feed: feed.InitFeedUsecase(
+			dom.SqlTx,
 			dom.Feed,
 			dom.User,
 			efLogger,

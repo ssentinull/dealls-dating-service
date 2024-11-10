@@ -78,4 +78,5 @@ func (r *rest) Serve() {
 	feedV1 := apiV1.Group("/feed").Use(r.mw.JWTAuthMiddleware())
 	feedV1.POST("/preference", r.CreatePreference)
 	feedV1.GET("/", r.GetFeed)
+	feedV1.POST("/swipe", r.SwipeFeed)
 }

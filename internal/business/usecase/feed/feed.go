@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/domain/feed"
+	"github.com/ssentinull/dealls-dating-service/internal/business/domain/sqltx"
 	"github.com/ssentinull/dealls-dating-service/internal/business/domain/user"
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
 	"github.com/ssentinull/dealls-dating-service/internal/types"
@@ -15,9 +16,11 @@ import (
 type UsecaseItf interface {
 	CreatePreference(ctx context.Context, params model.CreatePreferenceParams) (model.PreferenceModel, error)
 	GetFeed(ctx context.Context, params model.GetFeedParams) ([]model.FeedModel, *types.Pagination, error)
+	SwipeFeed(ctx context.Context, params model.SwipeFeedParams) (model.SwipeModel, error)
 }
 
 type feedUc struct {
+	sqlTxDom   sqltx.DomainItf
 	feedDom    feed.DomainItf
 	userDom    user.DomainItf
 	efLogger   logger.Logger
@@ -29,6 +32,7 @@ type feedUc struct {
 type Options struct{}
 
 func InitFeedUsecase(
+	sqlTxDom sqltx.DomainItf,
 	feedDom feed.DomainItf,
 	userDom user.DomainItf,
 	efLogger logger.Logger,
@@ -37,6 +41,7 @@ func InitFeedUsecase(
 	opt Options,
 ) UsecaseItf {
 	return &feedUc{
+		sqlTxDom:   sqlTxDom,
 		feedDom:    feedDom,
 		userDom:    userDom,
 		efLogger:   efLogger,

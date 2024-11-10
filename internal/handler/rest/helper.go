@@ -284,6 +284,15 @@ func (r *rest) responseSuccess(c *gin.Context, code int, resp interface{}, opts 
 		}
 
 		raw, err = json.Marshal(res)
+	case model.SwipeModel:
+		resultType := mapper.MapSwipeModelToSwipeType(data)
+		res := types.SwipeFeedResponse{
+			Success: true,
+			Message: message,
+			Data:    resultType,
+		}
+
+		raw, err = json.Marshal(res)
 	default:
 		r.ResponseError(c, errors.New("unknown response type"), fmt.Sprintf("cannot cast type of %+v", data))
 		return

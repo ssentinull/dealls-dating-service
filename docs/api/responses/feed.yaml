@@ -48,3 +48,24 @@ definitions:
         $ref: '../definitions/common.yaml#/definitions/Pagination'
     required:
       - success
+
+  SwipeFeedResponse:
+    title: Swipe Feed Response
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+        x-nullable: false
+        x-order: 1
+      message:
+        example: A success message
+        type: string
+        x-nullable: false
+        x-order: 2
+      data:
+        x-nullable: false
+        x-order: 3
+        $ref: '../definitions/feed.yaml#/definitions/Swipe'
+    required:
+      - success

@@ -17,6 +17,9 @@ type DomainItf interface {
 	CreatePreference(ctx context.Context, tx *gorm.DB, p model.PreferenceModel) (model.PreferenceModel, error)
 	GetPreferenceByParams(ctx context.Context, p model.GetPreferenceParams) (model.PreferenceModel, error)
 	GetFeedByParams(ctx context.Context, p model.GetFeedParams) ([]model.FeedModel, *types.Pagination, error)
+	CreateSwipe(ctx context.Context, tx *gorm.DB, p model.SwipeModel) (model.SwipeModel, error)
+	GetSwipeByParams(ctx context.Context, p model.GetSwipeParams) (model.SwipeModel, error)
+	CreateMatch(ctx context.Context, tx *gorm.DB, p model.MatchModel) (model.MatchModel, error)
 }
 
 type feedImpl struct {

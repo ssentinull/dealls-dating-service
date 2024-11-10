@@ -2,6 +2,7 @@ package domain
 
 import (
 	"github.com/ssentinull/dealls-dating-service/internal/business/domain/feed"
+	"github.com/ssentinull/dealls-dating-service/internal/business/domain/sqltx"
 	"github.com/ssentinull/dealls-dating-service/internal/business/domain/user"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/cache"
 	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/libsql"
@@ -10,13 +11,15 @@ import (
 )
 
 type Domain struct {
-	User user.DomainItf
-	Feed feed.DomainItf
+	SqlTx sqltx.DomainItf
+	User  user.DomainItf
+	Feed  feed.DomainItf
 }
 
 type Options struct {
-	User user.Options
-	Feed feed.Options
+	SqlTx sqltx.Options
+	User  user.Options
+	Feed  feed.Options
 }
 
 func Init(
@@ -27,6 +30,11 @@ func Init(
 	opt Options,
 ) *Domain {
 	return &Domain{
+		SqlTx: sqltx.InitSQLTXDomain(
+			efLogger,
+			sqlClient,
+			opt.SqlTx,
+		),
 		User: user.InitUserDomain(
 			efLogger,
 			parser.JSONParser(),

@@ -10,7 +10,7 @@ func MapUserModelToUserType(src model.UserModel) *types.User {
 		ID:        src.Id,
 		Email:     src.Email,
 		Name:      src.Name,
-		Gender:    src.Gender,
+		Gender:    types.Gender(src.Gender),
 		BirthDate: src.BirthDate.Format("02-01-2006"),
 		Location:  src.Location,
 		CreatedAt: types.CreatedAt(src.CreatedAt),
@@ -42,5 +42,15 @@ func MapFeedModelToFeedType(src model.FeedModel) *types.Feed {
 		Gender:   src.Gender,
 		Age:      src.Age,
 		Location: src.Location,
+	}
+}
+
+func MapSwipeModelToSwipeType(src model.SwipeModel) *types.Swipe {
+	return &types.Swipe{
+		ID:         src.Id,
+		FromUserID: src.FromUserId,
+		ToUserID:   src.ToUserId,
+		SwipeType:  types.SwipeType(src.SwipeType),
+		CreatedAt:  types.CreatedAt(src.CreatedAt),
 	}
 }

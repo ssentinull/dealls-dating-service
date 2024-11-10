@@ -97,3 +97,45 @@ definitions:
         x-nullable: false
         x-order: 5
         type: string
+
+  Swipe:
+    title: Swipe
+    type: object
+    x-omitempty: false
+    x-nullable: true
+    properties:
+      id:
+        description: the Id
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 1
+        type: integer
+      from_user_id:
+        description: the From User Id
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 2
+        type: integer
+      to_user_id:
+        description: the To User Id
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 3
+        type: integer
+      swipe_type:
+        description: the Swipe Type
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 4
+        $ref: './enum.yaml#/definitions/SwipeType'
+      created_at:
+        description: the Created At
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        x-order: 5
+        $ref: './common.yaml#/definitions/CreatedAt'

@@ -33,3 +33,20 @@ definitions:
         x-go-custom-tag: 'binding:"required"'
         x-omitempty: false
         x-nullable: false
+
+  SwipeFeedRequest:
+    title: Swipe Feed Request
+    type: object
+    properties:
+      to_user_id:
+        description: the To User Id
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false
+        type: integer
+      swipe_type:
+        $ref: '../definitions/enum.yaml#/definitions/SwipeType'
+        description: the Swipe Type
+        x-go-custom-tag: 'binding:"required"'
+        x-omitempty: false
+        x-nullable: false

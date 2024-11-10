@@ -47,8 +47,42 @@ type (
 		MaxAge   int64
 		params.GetFeedParams
 	}
+
+	SwipeModel struct {
+		Id         int64
+		FromUserId int64
+		ToUserId   int64
+		SwipeType  string
+		CreatedAt  time.Time
+	}
+
+	GetSwipeParams struct {
+		FromUserId int64
+		ToUserId   int64
+		CreatedAt  time.Time
+	}
+
+	SwipeFeedParams struct {
+		FromUserId int64
+		params.SwipeFeedParams
+	}
+
+	MatchModel struct {
+		Id            int64
+		MyUserId      int64
+		MatchedUserId int64
+		CreatedAt     time.Time
+	}
 )
 
 func (p PreferenceModel) TableName() string {
 	return "preferences"
+}
+
+func (s SwipeModel) TableName() string {
+	return "swipes"
+}
+
+func (m MatchModel) TableName() string {
+	return "matches"
 }

@@ -4,9 +4,11 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
 	"github.com/ssentinull/dealls-dating-service/internal/types"
+	"github.com/ssentinull/dealls-dating-service/pkg/stdlib/libsql"
 	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"gorm.io/gorm"
@@ -25,15 +27,13 @@ func (f *feedUc) CreatePreference(ctx context.Context, params model.CreatePrefer
 		return model.PreferenceModel{}, x.WrapWithCode(err, http.StatusConflict, "preference already exists")
 	}
 
-	preference := model.PreferenceModel{
+	res, err := f.feedDom.CreatePreference(ctx, nil, model.PreferenceModel{
 		UserId:   params.UserId,
 		Gender:   string(params.Body.Gender),
 		MinAge:   params.Body.MinAge,
 		MaxAge:   params.Body.MaxAge,
 		Location: string(params.Body.Location),
-	}
-
-	res, err := f.feedDom.CreatePreference(ctx, nil, preference)
+	})
 	if err != nil {
 		f.efLogger.Error(err)
 		return model.PreferenceModel{}, err
@@ -70,4 +70,72 @@ func (f *feedUc) GetFeed(ctx context.Context, params model.GetFeedParams) ([]mod
 	}
 
 	return feed, pagination, nil
+}
+
+func (f *feedUc) SwipeFeed(ctx context.Context, params model.SwipeFeedParams) (model.SwipeModel, error) {
+	var err error
+	if _, err := f.userDom.GetUserByParams(ctx, model.GetUserParams{Id: params.FromUserId}); err != nil {
+		f.efLogger.Error(err)
+		return model.SwipeModel{}, x.WrapWithCode(err, http.StatusNotFound, "from user not found")
+	}
+
+	if _, err := f.userDom.GetUserByParams(ctx, model.GetUserParams{Id: params.Body.ToUserID}); err != nil {
+		f.efLogger.Error(err)
+		return model.SwipeModel{}, x.WrapWithCode(err, http.StatusNotFound, "to user not found")
+	}
+
+	existingSwipe, err := f.feedDom.GetSwipeByParams(ctx, model.GetSwipeParams{
+		FromUserId: params.FromUserId,
+		ToUserId:   params.Body.ToUserID,
+		CreatedAt:  time.Now(),
+	})
+	if err != nil && x.GetCause(err) != gorm.ErrRecordNotFound {
+		f.efLogger.Error(err)
+		return model.SwipeModel{}, err
+	}
+
+	if existingSwipe.Id > 0 {
+		err = errors.New("user has already swiped this person")
+		f.efLogger.Error(err)
+		return model.SwipeModel{}, x.WrapWithCode(err, http.StatusConflict, "preference already exists")
+	}
+
+	// TODO: limit the swipe to 10
+
+	tx := f.sqlTxDom.BeginTX()
+	defer func(tx *gorm.DB) {
+		if err != nil {
+			if errRollback := f.sqlTxDom.RollbackTX(tx); errRollback != nil {
+				err = x.WrapWithCode(errRollback, x.GetCode(errRollback), libsql.ErrorTxRollback)
+			}
+		}
+	}(tx)
+
+	res, err := f.feedDom.CreateSwipe(ctx, tx, model.SwipeModel{
+		FromUserId: params.FromUserId,
+		ToUserId:   params.Body.ToUserID,
+		SwipeType:  string(params.Body.SwipeType),
+	})
+	if err != nil {
+		f.efLogger.Error(err)
+		return model.SwipeModel{}, err
+	}
+
+	_, err = f.feedDom.CreateMatch(ctx, tx, model.MatchModel{
+		MyUserId:      params.FromUserId,
+		MatchedUserId: params.Body.ToUserID,
+	})
+	if err != nil {
+		f.efLogger.Error(err)
+		return model.SwipeModel{}, err
+	}
+
+	// TODO: increment limit
+
+	if err = f.sqlTxDom.CommitTX(tx); err != nil {
+		f.efLogger.Error(err)
+		return model.SwipeModel{}, err
+	}
+
+	return res, nil
 }

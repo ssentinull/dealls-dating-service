@@ -19,3 +19,10 @@ definitions:
       - JAKARTA
       - PALEMBANG
       - DENPASAR
+
+  SwipeType:
+    title: Swipe Type
+    type: string
+    enum: 
+      - RIGHT
+      - LEFT
