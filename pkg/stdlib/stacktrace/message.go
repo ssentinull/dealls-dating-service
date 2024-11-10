@@ -35,6 +35,11 @@ var (
 		Message:    `Record Has Existed and Must Be Unique. Please Validate Your Input Or Contact Administrator.`,
 	}
 
+	ErrMsgUnprocessableEntity = Message{
+		StatusCode: http.StatusUnprocessableEntity,
+		Message:    `Record Can Not Be Processed. Please Complete The Prerequisite Flow First.`,
+	}
+
 	errMsgLocked = Message{
 		StatusCode: http.StatusLocked,
 		Message:    `The requested resource cannot be accessed at this time. Please try again later.`,
@@ -46,6 +51,7 @@ var (
 		http.StatusBadRequest:          ErrMsgBadRequest,
 		http.StatusUnauthorized:        ErrMsgUnauthorized,
 		http.StatusConflict:            ErrMsgUniqueConst,
+		http.StatusUnprocessableEntity: ErrMsgUnprocessableEntity,
 		http.StatusLocked:              errMsgLocked,
 	}
 )

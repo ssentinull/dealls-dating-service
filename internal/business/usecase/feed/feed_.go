@@ -48,11 +48,13 @@ func (f *feedUc) GetFeed(ctx context.Context, params model.GetFeedParams) ([]mod
 		return []model.FeedModel{}, nil, x.WrapWithCode(err, http.StatusNotFound, "user not found")
 	}
 
-	// TODO: if preference doesnt exist throw error
-
 	preference, err := f.feedDom.GetPreferenceByParams(ctx, model.GetPreferenceParams{UserId: params.UserId})
 	if err != nil {
 		f.efLogger.Error(err)
+		if x.GetCause(err) == gorm.ErrRecordNotFound {
+			err = errors.New("create feed preference first")
+			return []model.FeedModel{}, nil, x.WrapWithCode(err, http.StatusUnprocessableEntity, "create feed preference first")
+		}
 		return []model.FeedModel{}, nil, err
 	}
 
