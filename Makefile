@@ -49,6 +49,9 @@ check-modd-exists:
 run-dev: check-modd-exists
 	@modd -f ./.modd/server.modd.conf
 
+run:
+	go run main.go server
+
 migrate-up:
 	go run main.go migrate --direction=up
 
