@@ -58,7 +58,7 @@ func (f *feedUc) GetFeed(ctx context.Context, params model.GetFeedParams) ([]mod
 		return []model.FeedModel{}, nil, err
 	}
 
-	getUserListParam := model.GetFeedParams{
+	getFeedParams := model.GetFeedParams{
 		UserId:        params.UserId,
 		Gender:        preference.Gender,
 		Location:      preference.Location,
@@ -67,7 +67,7 @@ func (f *feedUc) GetFeed(ctx context.Context, params model.GetFeedParams) ([]mod
 		GetFeedParams: params.GetFeedParams,
 	}
 
-	feed, pagination, err := f.feedDom.GetFeedByParams(ctx, getUserListParam)
+	feed, pagination, err := f.feedDom.GetFeedByParams(ctx, getFeedParams)
 	if err != nil {
 		f.efLogger.Error(err)
 		return []model.FeedModel{}, nil, err
