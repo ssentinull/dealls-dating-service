@@ -5,6 +5,7 @@ config.yaml
 # unit test files
 /internal/mocks
 /pkg/stdlib/tests
+test-reports/
 
 # swagger files
 docs/api/tmp/
