@@ -9,6 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	SwipeTypeRight = "RIGHT"
+	SwipeTypeLeft  = "LEFT"
+)
+
 type (
 	PreferenceModel struct {
 		Id        int64
@@ -60,6 +65,7 @@ type (
 		FromUserId int64
 		ToUserId   int64
 		CreatedAt  time.Time
+		SwipeType  string
 	}
 
 	SwipeFeedParams struct {

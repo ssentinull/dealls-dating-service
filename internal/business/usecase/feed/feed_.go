@@ -48,6 +48,8 @@ func (f *feedUc) GetFeed(ctx context.Context, params model.GetFeedParams) ([]mod
 		return []model.FeedModel{}, nil, x.WrapWithCode(err, http.StatusNotFound, "user not found")
 	}
 
+	// TODO: if preference doesnt exist throw error
+
 	preference, err := f.feedDom.GetPreferenceByParams(ctx, model.GetPreferenceParams{UserId: params.UserId})
 	if err != nil {
 		f.efLogger.Error(err)
@@ -121,13 +123,35 @@ func (f *feedUc) SwipeFeed(ctx context.Context, params model.SwipeFeedParams) (m
 		return model.SwipeModel{}, err
 	}
 
-	_, err = f.feedDom.CreateMatch(ctx, tx, model.MatchModel{
-		MyUserId:      params.FromUserId,
-		MatchedUserId: params.Body.ToUserID,
+	matchingSwipe, err := f.feedDom.GetSwipeByParams(ctx, model.GetSwipeParams{
+		FromUserId: params.Body.ToUserID,
+		ToUserId:   params.FromUserId,
+		SwipeType:  model.SwipeTypeRight,
+		CreatedAt:  time.Now(),
 	})
-	if err != nil {
+	if err != nil && x.GetCause(err) != gorm.ErrRecordNotFound {
 		f.efLogger.Error(err)
 		return model.SwipeModel{}, err
+	}
+
+	if matchingSwipe.Id > 0 {
+		_, err = f.feedDom.CreateMatch(ctx, tx, model.MatchModel{
+			MyUserId:      params.FromUserId,
+			MatchedUserId: params.Body.ToUserID,
+		})
+		if err != nil {
+			f.efLogger.Error(err)
+			return model.SwipeModel{}, err
+		}
+
+		_, err = f.feedDom.CreateMatch(ctx, tx, model.MatchModel{
+			MyUserId:      params.Body.ToUserID,
+			MatchedUserId: params.FromUserId,
+		})
+		if err != nil {
+			f.efLogger.Error(err)
+			return model.SwipeModel{}, err
+		}
 	}
 
 	// TODO: increment limit

@@ -150,16 +150,22 @@ func (f *feedImpl) createSwipeSQL(ctx context.Context, tx *gorm.DB, p model.Swip
 }
 
 func (f *feedImpl) getSwipeSQL(ctx context.Context, p model.GetSwipeParams) (model.SwipeModel, error) {
-	db := f.sql.Leader()
+	db := f.sql.Leader().WithContext(ctx)
+
+	if p.FromUserId > 0 {
+		db = db.Where("from_user_id = ?", p.FromUserId)
+	}
+
+	if p.ToUserId > 0 {
+		db = db.Where("to_user_id = ?", p.ToUserId)
+	}
+
+	if !p.CreatedAt.IsZero() {
+		db = db.Where("created_at::DATE = ?", p.CreatedAt.Format("2006-01-02"))
+	}
 
 	var result model.SwipeModel
-	err := db.WithContext(ctx).
-		Where("from_user_id = ?", p.FromUserId).
-		Where("to_user_id = ?", p.ToUserId).
-		Where("created_at::DATE = ?", p.CreatedAt.Format("2006-01-02")).
-		Take(&result).
-		Error
-	if err != nil {
+	if err := db.Take(&result).Error; err != nil {
 		f.efLogger.Error(err)
 		return result, err
 	}
