@@ -19,6 +19,8 @@ type DomainItf interface {
 	GetFeedByParams(ctx context.Context, p model.GetFeedParams) ([]model.FeedModel, *types.Pagination, error)
 	CreateSwipe(ctx context.Context, tx *gorm.DB, p model.SwipeModel) (model.SwipeModel, error)
 	GetSwipeByParams(ctx context.Context, p model.GetSwipeParams) (model.SwipeModel, error)
+	GetSwipeCountByUserId(ctx context.Context, userId int64) (int64, error)
+	SetSwipeCountByUserId(ctx context.Context, userId, swipeCount int64) error
 	CreateMatch(ctx context.Context, tx *gorm.DB, p model.MatchModel) (model.MatchModel, error)
 }
 

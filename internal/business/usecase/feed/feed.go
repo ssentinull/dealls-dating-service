@@ -29,7 +29,9 @@ type feedUc struct {
 	opt        Options
 }
 
-type Options struct{}
+type Options struct {
+	DailySwipeThreshold int64
+}
 
 func InitFeedUsecase(
 	sqlTxDom sqltx.DomainItf,

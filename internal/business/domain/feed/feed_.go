@@ -60,6 +60,25 @@ func (f *feedImpl) GetSwipeByParams(ctx context.Context, p model.GetSwipeParams)
 	return result, nil
 }
 
+func (f *feedImpl) GetSwipeCountByUserId(ctx context.Context, userId int64) (int64, error) {
+	result, err := f.getSwipeCountCache(ctx, userId)
+	if err != nil {
+		err = x.WrapPassCode(err, "getSwipeCountCache")
+		return 0, err
+	}
+
+	return result, nil
+}
+
+func (f *feedImpl) SetSwipeCountByUserId(ctx context.Context, userId, swipeCount int64) error {
+	if err := f.setSwipeCountCache(ctx, userId, swipeCount); err != nil {
+		err = x.WrapPassCode(err, "setSwipeCountCache")
+		return err
+	}
+
+	return nil
+}
+
 func (f *feedImpl) CreateMatch(ctx context.Context, tx *gorm.DB, p model.MatchModel) (model.MatchModel, error) {
 	result, err := f.createMatchSQL(ctx, tx, p)
 	if err != nil {

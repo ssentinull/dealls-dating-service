@@ -40,6 +40,11 @@ var (
 		Message:    `Record Can Not Be Processed. Please Complete The Prerequisite Flow First.`,
 	}
 
+	ErrTooManyRequests = Message{
+		StatusCode: http.StatusTooManyRequests,
+		Message:    `You have reached your daily limit for accessing this resource. Please try again tomorrow.`,
+	}
+
 	errMsgLocked = Message{
 		StatusCode: http.StatusLocked,
 		Message:    `The requested resource cannot be accessed at this time. Please try again later.`,
@@ -52,6 +57,7 @@ var (
 		http.StatusUnauthorized:        ErrMsgUnauthorized,
 		http.StatusConflict:            ErrMsgUniqueConst,
 		http.StatusUnprocessableEntity: ErrMsgUnprocessableEntity,
+		http.StatusTooManyRequests:     ErrTooManyRequests,
 		http.StatusLocked:              errMsgLocked,
 	}
 )

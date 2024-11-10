@@ -129,6 +129,8 @@ func initConfigEnv() (err error) {
 	conf.Auth.SecretKey = viper.GetString("AUTH_SECRET_KEY")
 	conf.Auth.StaticToken = viper.GetString("AUTH_STATIC_TOKEN")
 
+	conf.Business.Usecase.Feed.DailySwipeThreshold = viper.GetInt64("BUSINESS_USECASE_FEED_DAILY_SWIPE_THRESHOLD")
+
 	conf.Grace.Network = viper.GetString("GRACE_NETWORK")
 	conf.Grace.Pidfile = viper.GetString("GRACE_PIDFILE")
 	conf.Grace.ShutdownTimeout = viper.GetDuration("GRACE_SHUTDOWN_TIMEOUT")

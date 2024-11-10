@@ -78,4 +78,6 @@ Handler:
     DebugMode: true
 Business:
   Usecase:
+    Feed:
+      DailySwipeThreshold: 3
   Domain:
