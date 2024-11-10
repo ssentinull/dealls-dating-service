@@ -72,8 +72,9 @@ mockgen:
 	@mockgen -destination=pkg/stdlib/tests/mock/auth/auth.go -package=mocks -source=pkg/stdlib/auth/auth.go Auth
 	
 	# mock internal/business/domain
-	
-	# mock internal/business/usecase
+	@mockgen -destination=internal/mocks/business/domain/sqltx/sqltx.go -package=mocks -source=internal/business/domain/sqltx/sqltx.go DomainSqlTx
+	@mockgen -destination=internal/mocks/business/domain/feed/feed.go -package=mocks -source=internal/business/domain/feed/feed.go DomainFeed
+	@mockgen -destination=internal/mocks/business/domain/user/user.go -package=mocks -source=internal/business/domain/user/user.go DomainUser
 
 swagger:
 	@$(MAKE) swagger-concat
