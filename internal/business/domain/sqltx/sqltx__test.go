@@ -9,7 +9,7 @@ import (
 	"github.com/c2fo/testify/assert"
 )
 
-func TestSQLTXDomain_BeginTX(t *testing.T) {
+func TestSqlTxDomain_BeginTX(t *testing.T) {
 	mockedDependency := NewMockedDependency(t)
 	sqltxDomain := sqltx.InitSQLTXDomain(
 		mockedDependency.efLogger,
@@ -25,7 +25,7 @@ func TestSQLTXDomain_BeginTX(t *testing.T) {
 	})
 }
 
-func TestSQLTXDomain_CommitTX(t *testing.T) {
+func TestSqlTxDomain_CommitTX(t *testing.T) {
 	mockedDependency := NewMockedDependency(t)
 	sqltxDomain := sqltx.InitSQLTXDomain(
 		mockedDependency.efLogger,
@@ -42,7 +42,7 @@ func TestSQLTXDomain_CommitTX(t *testing.T) {
 	})
 }
 
-func TestSQLTXDomain_RollbackTX(t *testing.T) {
+func TestSqlTxDomain_RollbackTX(t *testing.T) {
 	mockedDependency := NewMockedDependency(t)
 	sqltxDomain := sqltx.InitSQLTXDomain(
 		mockedDependency.efLogger,

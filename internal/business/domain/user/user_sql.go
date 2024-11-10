@@ -8,7 +8,6 @@ import (
 	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 func (u *userImpl) createUserSQL(ctx context.Context, tx *gorm.DB, p model.UserModel) (model.UserModel, error) {
@@ -17,7 +16,7 @@ func (u *userImpl) createUserSQL(ctx context.Context, tx *gorm.DB, p model.UserM
 	}
 
 	var result model.UserModel
-	if err := tx.WithContext(ctx).Omit(clause.Associations).Create(&p).Error; err != nil {
+	if err := tx.WithContext(ctx).Create(&p).Error; err != nil {
 		u.efLogger.Error(err)
 		return result, x.Wrap(err, libsql.SomethingWentWrongWithDB)
 	}

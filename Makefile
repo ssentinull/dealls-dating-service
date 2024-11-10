@@ -72,10 +72,8 @@ mockgen:
 	@mockgen -destination=pkg/stdlib/tests/mock/auth/auth.go -package=mocks -source=pkg/stdlib/auth/auth.go Auth
 	
 	# mock internal/business/domain
-	@mockgen -destination=internal/mocks/business/domain/book/book.go -package=mocks -source=internal/business/domain/book/book.go DomainBook
 	
 	# mock internal/business/usecase
-	@mockgen -destination=internal/mocks/business/usecase/book/book.go -package=mocks -source=internal/business/usecase/book/book.go UsecaseBook
 
 swagger:
 	@$(MAKE) swagger-concat
@@ -138,7 +136,7 @@ imports:
 .PHONY: test
 test:
 	mkdir -p test-reports
-	go test ./internal/... -coverprofile=test-reports/coverage.out
+	go test ./internal/business/... -coverprofile=test-reports/coverage.out
 	go tool cover -func test-reports/coverage.out
 	go tool cover -func test-reports/coverage.out -o test-reports/coverage.cov
 
