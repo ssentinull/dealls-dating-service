@@ -77,8 +77,8 @@ func (f *feedUc) GetFeed(ctx context.Context, params model.GetFeedParams) ([]mod
 }
 
 func (f *feedUc) SwipeFeed(ctx context.Context, params model.SwipeFeedParams) (model.SwipeModel, error) {
-	var err error
-	if _, err := f.userDom.GetUserByParams(ctx, model.GetUserParams{Id: params.FromUserId}); err != nil {
+	user, err := f.userDom.GetUserByParams(ctx, model.GetUserParams{Id: params.FromUserId})
+	if err != nil {
 		f.efLogger.Error(err)
 		return model.SwipeModel{}, x.WrapWithCode(err, http.StatusNotFound, "from_user not found")
 	}
@@ -88,17 +88,18 @@ func (f *feedUc) SwipeFeed(ctx context.Context, params model.SwipeFeedParams) (m
 		return model.SwipeModel{}, x.WrapWithCode(err, http.StatusNotFound, "to_user not found")
 	}
 
-	// TODO: skip swipe count on premium user
+	swipeCount := int64(0)
+	if !user.IsPremiumUser {
+		swipeCount, err = f.feedDom.GetSwipeCountByUserId(ctx, params.FromUserId)
+		if err != nil {
+			f.efLogger.Error(err)
+			return model.SwipeModel{}, err
+		}
 
-	swipeCount, err := f.feedDom.GetSwipeCountByUserId(ctx, params.FromUserId)
-	if err != nil {
-		f.efLogger.Error(err)
-		return model.SwipeModel{}, err
-	}
-
-	if swipeCount >= f.opt.DailySwipeThreshold {
-		err = errors.New("user has reached daily swipe threshold")
-		return model.SwipeModel{}, x.WrapWithCode(err, http.StatusTooManyRequests, "user has reached daily swipe threshold")
+		if swipeCount >= f.opt.DailySwipeThreshold {
+			err = errors.New("user has reached daily swipe threshold")
+			return model.SwipeModel{}, x.WrapWithCode(err, http.StatusTooManyRequests, "user has reached daily swipe threshold")
+		}
 	}
 
 	existingSwipe, err := f.feedDom.GetSwipeByParams(ctx, model.GetSwipeParams{
@@ -172,9 +173,11 @@ func (f *feedUc) SwipeFeed(ctx context.Context, params model.SwipeFeedParams) (m
 		return model.SwipeModel{}, err
 	}
 
-	swipeCount++
-	if err = f.feedDom.SetSwipeCountByUserId(ctx, params.FromUserId, swipeCount); err != nil {
-		f.efLogger.Warn(err)
+	if !user.IsPremiumUser {
+		swipeCount++
+		if err = f.feedDom.SetSwipeCountByUserId(ctx, params.FromUserId, swipeCount); err != nil {
+			f.efLogger.Warn(err)
+		}
 	}
 
 	return res, nil

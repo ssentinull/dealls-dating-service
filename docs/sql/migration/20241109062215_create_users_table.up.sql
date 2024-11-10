@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS "users" (
     "gender" VARCHAR(50),
     "birth_date" DATE,
     "location" VARCHAR(255),
+    "is_premium_user" BOOLEAN DEFAULT FALSE,
     "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMP,
     "deleted_at" TIMESTAMP
