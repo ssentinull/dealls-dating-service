@@ -54,6 +54,8 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 	size := common.ToValue(p.PaginationSize)
 	offset := int((page - 1) * size)
 
+	// FIX: add gender and location
+
 	readQuery := `
 	WITH potential_matches AS (
 		SELECT 
@@ -66,6 +68,8 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 		FROM users u
 		WHERE DATE_PART('year', AGE(u.birth_date)) <= ?
 			AND DATE_PART('year', AGE(u.birth_date)) >= ?
+			AND u.gender = ?
+			AND u.location = ?
 			AND u.id != ?
 			AND u.deleted_at IS NULL
 	),
@@ -88,7 +92,7 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 	result := make([]model.FeedModel, 0)
 	db := f.sql.Leader().WithContext(ctx)
 
-	err := db.Raw(readQuery, p.MaxAge, p.MinAge, p.UserId, p.UserId, offset, size).Scan(&result).Error
+	err := db.Raw(readQuery, p.MaxAge, p.MinAge, p.Gender, p.Location, p.UserId, p.UserId, offset, size).Scan(&result).Error
 	if err != nil {
 		f.efLogger.Error(err)
 		return result, nil, x.Wrap(err, libsql.SomethingWentWrongWithDB)
@@ -105,6 +109,8 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 		FROM users u
 		WHERE DATE_PART('year', AGE(u.birth_date)) <= ?
 			AND DATE_PART('year', AGE(u.birth_date)) >= ?
+			AND u.gender = ?
+			AND u.location = ?
 			AND u.id != ?
 			AND u.deleted_at IS NULL
 	),
@@ -122,7 +128,7 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 	`
 
 	totalData := int64(0)
-	err = db.Raw(countQuery, p.MaxAge, p.MinAge, p.UserId, p.UserId).Scan(&totalData).Error
+	err = db.Raw(countQuery, p.MaxAge, p.MinAge, p.Gender, p.Location, p.UserId, p.UserId).Scan(&totalData).Error
 	if err != nil {
 		f.efLogger.Error(err)
 		return result, nil, x.Wrap(err, libsql.SomethingWentWrongWithDB)
