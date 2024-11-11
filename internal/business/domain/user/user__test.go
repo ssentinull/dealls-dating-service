@@ -2,7 +2,9 @@ package user_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"regexp"
 	"testing"
 
@@ -91,9 +93,15 @@ func TestUserDomain_GetUserByParams(t *testing.T) {
 		Email: email,
 	}
 
+	paramRaw, err := json.Marshal(param)
+	assert.NoError(t, err)
+
+	cacheKey := fmt.Sprintf(user.UserCacheKey, string(paramRaw))
 	getUserByParamSQL := `SELECT * FROM "users" WHERE id = $1 AND email = $2 AND "users"."deleted_at" IS NULL LIMIT 1`
 
 	t.Run("success", func(t *testing.T) {
+		mockedDependency.json.EXPECT().Marshal(param).Times(1).Return(paramRaw, nil)
+		mockedDependency.cache.Mock().ExpectGet(cacheKey).SetErr(errors.New("redis error"))
 		mockedDependency.sql.MockLeader().ExpectQuery(regexp.QuoteMeta(getUserByParamSQL)).
 			WillReturnRows(sqlmock.NewRows([]string{"id", "email"}).AddRow(ID, email))
 
@@ -104,6 +112,8 @@ func TestUserDomain_GetUserByParams(t *testing.T) {
 	})
 
 	t.Run("failed", func(t *testing.T) {
+		mockedDependency.json.EXPECT().Marshal(param).Times(1).Return(paramRaw, nil)
+		mockedDependency.cache.Mock().ExpectGet(cacheKey).SetErr(errors.New("redis error"))
 		mockedDependency.sql.MockLeader().ExpectQuery(regexp.QuoteMeta(getUserByParamSQL)).WillReturnError(errors.New("db error"))
 
 		activity, err := userDomain.GetUserByParams(ctx, param)
