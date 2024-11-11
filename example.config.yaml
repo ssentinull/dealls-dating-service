@@ -32,7 +32,7 @@ HealthCheck:
     CheckTimeout: 1s
     Enabled: true
     FailureThreshold: 3
-    InitDelaySec: 10s
+    InitDelaySec: 2s
     PeriodSec: 1s
     SuccessThreshold: 1
   WaitBeforeContinue: true
