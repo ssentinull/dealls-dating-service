@@ -7,6 +7,7 @@ import (
 	"github.com/ssentinull/dealls-dating-service/internal/types"
 	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
+	redis "github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 )
 
@@ -21,10 +22,27 @@ func (f *feedImpl) CreatePreference(ctx context.Context, tx *gorm.DB, p model.Pr
 }
 
 func (f *feedImpl) GetPreferenceByParams(ctx context.Context, p model.GetPreferenceParams) (model.PreferenceModel, error) {
-	result, err := f.getPreferenceSQL(ctx, p)
-	if err != nil {
-		err = x.WrapPassCode(err, "getPreferenceSQL")
-		return result, err
+	result, err := f.getPreferenceCache(ctx, p)
+	if err == redis.Nil {
+		result, err := f.getPreferenceSQL(ctx, p)
+		if err != nil {
+			err = x.WrapPassCode(err, "getPreferenceSQL")
+			return result, err
+		}
+
+		if err = f.setPreferenceCache(ctx, p, result); err != nil {
+			f.efLogger.Warn(err)
+		}
+
+		return result, nil
+	} else if err != nil {
+		result, err := f.getPreferenceSQL(ctx, p)
+		if err != nil {
+			err = x.WrapPassCode(err, "getPreferenceSQL")
+			return result, err
+		}
+
+		return result, nil
 	}
 
 	return result, nil

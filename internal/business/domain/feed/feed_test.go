@@ -2,6 +2,7 @@ package feed_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"regexp"
@@ -88,14 +89,17 @@ func TestFeedDomain_GetPreferenceByParams(t *testing.T) {
 
 	ID := int64(1)
 	userID := int64(2)
+	param := model.GetPreferenceParams{UserId: userID}
 
-	param := model.GetPreferenceParams{
-		UserId: userID,
-	}
+	paramRaw, err := json.Marshal(param)
+	assert.NoError(t, err)
 
+	cacheKey := fmt.Sprintf(feed.PreferenceCacheKey, string(paramRaw))
 	getPreferenceByParamSQL := `SELECT * FROM "preferences" WHERE user_id = $1 AND "preferences"."deleted_at" IS NULL LIMIT 1`
 
 	t.Run("success", func(t *testing.T) {
+		mockedDependency.json.EXPECT().Marshal(param).Times(1).Return(paramRaw, nil)
+		mockedDependency.cache.Mock().ExpectGet(cacheKey).SetErr(errors.New("redis error"))
 		mockedDependency.sql.MockLeader().ExpectQuery(regexp.QuoteMeta(getPreferenceByParamSQL)).
 			WillReturnRows(sqlmock.NewRows([]string{"id", "user_id"}).AddRow(ID, userID))
 
@@ -106,6 +110,8 @@ func TestFeedDomain_GetPreferenceByParams(t *testing.T) {
 	})
 
 	t.Run("failed", func(t *testing.T) {
+		mockedDependency.json.EXPECT().Marshal(param).Times(1).Return(paramRaw, nil)
+		mockedDependency.cache.Mock().ExpectGet(cacheKey).SetErr(errors.New("redis error"))
 		mockedDependency.sql.MockLeader().ExpectQuery(regexp.QuoteMeta(getPreferenceByParamSQL)).WillReturnError(errors.New("db error"))
 
 		activity, err := feedDomain.GetPreferenceByParams(ctx, param)

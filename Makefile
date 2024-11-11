@@ -35,7 +35,7 @@ ifdef test_run
 endif
 
 .PHONY: install
-install-dep: swagger-install ## Install dependencies
+install-dep: swagger-install
 	@command -v "dlv" >/dev/null 2>&1 || go install github.com/go-delve/delve/cmd/dlv@latest
 	@command -v "mockgen" >/dev/null 2>&1 || go install go.uber.org/mock/mockgen@latest
 	@$(MAKE) tidy
@@ -116,27 +116,6 @@ lint:
 	@echo "Run linter..."
 	@golangci-lint run --issues-exit-code 0 --timeout 10m --out-format checkstyle > ./test-reports/golangci-lint.out
 
-format:
-	@$(MAKE) fmt
-	@$(MAKE) imports
-
-fmt:
-	@echo "Formatting code style..."
-	gofmt -l -s -w \
-		cmd/.. \
-		internal/.. \
-		pkg/..
-	@echo "[DONE] Formatting code style..."
-
-imports:
-	@go install golang.org/x/tools/cmd/goimports@latest
-	@echo "Formatting imports..."
-	goimports -w -local bitbucket.com/efishery/efishery-crowdver-service \
-		cmd/.. \
-		internal/.. \
-		pkg/..
-	@echo "[DONE] Formatting imports..."
-
 .PHONY: test
 test:
 	mkdir -p test-reports
@@ -149,7 +128,7 @@ test-html:
 	go tool cover -html=test-reports/coverage.out -o test-reports/coverage.html
 
 .PHONY: docs
-docs: mockgen swagger-server ## build docs
+docs: mockgen swagger-server
 
 .PHONY: build
 build: 

@@ -6,15 +6,61 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ssentinull/dealls-dating-service/internal/business/model"
 	x "github.com/ssentinull/dealls-dating-service/pkg/stdlib/stacktrace"
 
 	redis "github.com/go-redis/redis/v8"
 )
 
 const (
-	SwipeCountCacheKey        = "swipe:count:user_id:%d"
+	PreferenceCacheKey = "preference:param:%v"
+	SwipeCountCacheKey = "swipe:count:user_id:%d"
+
+	PreferenceCacheExpiration = 5 * time.Minute
 	SwipeCountCacheExpiration = 24 * time.Hour
 )
+
+func (f *feedImpl) getPreferenceCache(ctx context.Context, p model.GetPreferenceParams) (model.PreferenceModel, error) {
+	result := model.PreferenceModel{}
+	rawKey, err := f.json.Marshal(p)
+	if err != nil {
+		return result, x.Wrap(err, "JSON Marshall Error")
+	}
+
+	key := fmt.Sprintf(PreferenceCacheKey, string(rawKey))
+	resultRaw, err := f.cache.Get(ctx, key).Bytes()
+	if err == redis.Nil {
+		return result, err
+	} else if err != nil {
+		return result, x.Wrap(err, "Redis Get Cache Error")
+	}
+
+	if err := f.json.Unmarshal(resultRaw, &result); err != nil {
+		return result, x.Wrap(err, "JSON Unmarshal Error")
+	}
+
+	return result, nil
+}
+
+func (f *feedImpl) setPreferenceCache(ctx context.Context, p model.GetPreferenceParams, preference model.PreferenceModel) error {
+	rawKey, err := f.json.Marshal(p)
+	if err != nil {
+		return x.Wrap(err, "JSON Marshall Error")
+	}
+
+	key := fmt.Sprintf(PreferenceCacheKey, string(rawKey))
+	rawJSON, err := f.json.Marshal(preference)
+	if err != nil {
+		return x.Wrap(err, "JSON Marshall Error")
+	}
+
+	if err := f.cache.Set(ctx, key, rawJSON, PreferenceCacheExpiration).Err(); err != nil {
+		f.efLogger.Error(err)
+		return x.Wrap(err, "Redis Set Cache Error")
+	}
+
+	return nil
+}
 
 func (f *feedImpl) getSwipeCountCache(ctx context.Context, userId int64) (int64, error) {
 	result := int64(0)
