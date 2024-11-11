@@ -37,11 +37,12 @@ type (
 	}
 
 	FeedModel struct {
-		Id       int64
-		Name     string
-		Gender   string
-		Age      int64
-		Location string
+		Id                int64
+		Name              string
+		Gender            string
+		Age               int64
+		Location          string
+		ProfilePictureUrl string
 	}
 
 	GetFeedParams struct {

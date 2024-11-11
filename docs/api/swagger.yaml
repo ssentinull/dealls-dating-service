@@ -296,6 +296,13 @@ definitions:
                 x-nullable: false
                 x-omitempty: false
                 x-order: !!float 2
+            profile_picture_url:
+                description: the Profile Picture URL
+                format: uri
+                type: string
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 6
         title: Feed
         type: object
         x-nullable: true
@@ -590,6 +597,12 @@ definitions:
                 x-go-custom-tag: binding:"required"
                 x-nullable: false
                 x-omitempty: false
+            profile_picture_url:
+                description: the Profile Picture URL
+                format: uri
+                type: string
+                x-nullable: false
+                x-omitempty: false
         title: Signup User Request
         type: object
     signupUserResponse:
@@ -710,7 +723,7 @@ definitions:
                 x-go-custom-tag: binding:"required"
                 x-nullable: false
                 x-omitempty: false
-                x-order: !!float 6
+                x-order: !!float 7
             name:
                 description: the Name
                 type: string
@@ -718,6 +731,13 @@ definitions:
                 x-nullable: false
                 x-omitempty: false
                 x-order: !!float 3
+            profile_picture_url:
+                description: the Profile Picture URL
+                format: uri
+                type: string
+                x-nullable: false
+                x-omitempty: false
+                x-order: !!float 6
         title: User
         type: object
         x-nullable: true

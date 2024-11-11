@@ -97,6 +97,13 @@ definitions:
         x-nullable: false
         x-order: 5
         type: string
+      profile_picture_url:
+        description: the Profile Picture URL
+        type: string
+        format: uri
+        x-order: 6
+        x-omitempty: false
+        x-nullable: false
 
   Swipe:
     title: Swipe

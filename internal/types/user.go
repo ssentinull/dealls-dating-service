@@ -11,6 +11,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // User User
@@ -30,6 +31,10 @@ type User struct {
 	// the Birth Date
 	BirthDate string `json:"birth_date" binding:"required"`
 
+	// the Profile Picture URL
+	// Format: uri
+	ProfilePictureURL strfmt.URI `json:"profile_picture_url"`
+
 	// the Location
 	Location string `json:"location" binding:"required"`
 
@@ -45,6 +50,10 @@ type User struct {
 func (m *User) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateProfilePictureURL(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateCreatedAt(formats); err != nil {
 		res = append(res, err)
 	}
@@ -56,6 +65,18 @@ func (m *User) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *User) validateProfilePictureURL(formats strfmt.Registry) error {
+	if swag.IsZero(m.ProfilePictureURL) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("profile_picture_url", "body", "uri", m.ProfilePictureURL.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 

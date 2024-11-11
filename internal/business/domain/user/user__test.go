@@ -41,7 +41,7 @@ func TestUserDomain_CreateUser(t *testing.T) {
 		Name:     "John Doe",
 	}
 
-	createUserSQL := `INSERT INTO "users" ("email","password","name","gender","birth_date","location","is_premium_user","created_at","updated_at","deleted_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING "id"`
+	createUserSQL := `INSERT INTO "users" ("email","password","name","gender","birth_date","location","profile_picture_url","is_premium_user","created_at","updated_at","deleted_at") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING "id"`
 
 	t.Run("success", func(t *testing.T) {
 		mockedDependency.sql.MockLeader().ExpectBegin()

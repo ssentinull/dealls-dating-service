@@ -39,13 +39,14 @@ func (a *authUc) SignupUser(ctx context.Context, params model.SignupUserParams) 
 	}
 
 	user := model.UserModel{
-		Email:         params.Body.Email,
-		Name:          params.Body.Name,
-		Password:      string(encPassword),
-		Gender:        string(params.Body.Gender),
-		BirthDate:     birthDate,
-		Location:      string(params.Body.Location),
-		IsPremiumUser: false,
+		Email:             params.Body.Email,
+		Name:              params.Body.Name,
+		Password:          string(encPassword),
+		Gender:            string(params.Body.Gender),
+		BirthDate:         birthDate,
+		Location:          string(params.Body.Location),
+		ProfilePictureUrl: params.Body.ProfilePictureURL.String(),
+		IsPremiumUser:     false,
 	}
 
 	res, err := a.userDom.CreateUser(ctx, nil, user)

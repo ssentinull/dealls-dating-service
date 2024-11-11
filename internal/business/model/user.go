@@ -11,17 +11,18 @@ import (
 
 type (
 	UserModel struct {
-		Id            int64
-		Email         string
-		Password      string
-		Name          string
-		Gender        string
-		BirthDate     time.Time
-		Location      string
-		IsPremiumUser bool
-		CreatedAt     time.Time
-		UpdatedAt     null.Time
-		DeletedAt     gorm.DeletedAt
+		Id                int64
+		Email             string
+		Password          string
+		Name              string
+		Gender            string
+		BirthDate         time.Time
+		Location          string
+		ProfilePictureUrl string
+		IsPremiumUser     bool
+		CreatedAt         time.Time
+		UpdatedAt         null.Time
+		DeletedAt         gorm.DeletedAt
 	}
 
 	GetUserParams struct {

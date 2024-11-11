@@ -46,6 +46,12 @@ definitions:
         x-go-custom-tag: 'binding:"required"'
         x-omitempty: false
         x-nullable: false
+      profile_picture_url:
+        description: the Profile Picture URL
+        type: string
+        format: uri
+        x-omitempty: false
+        x-nullable: false
 
   LoginUserRequest:
     title: Login User Request

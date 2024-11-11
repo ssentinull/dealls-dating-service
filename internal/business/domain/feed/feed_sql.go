@@ -54,8 +54,6 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 	size := common.ToValue(p.PaginationSize)
 	offset := int((page - 1) * size)
 
-	// FIX: add gender and location
-
 	readQuery := `
 	WITH potential_matches AS (
 		SELECT 
@@ -63,6 +61,7 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 			u.name,
 			u.gender,
 			u.location,
+			u.profile_picture_url,
 			u.created_at,
 			DATE_PART('year', AGE(u.birth_date)) AS age
 		FROM users u
@@ -105,6 +104,7 @@ func (f *feedImpl) getFeedSQL(ctx context.Context, p model.GetFeedParams) ([]mod
 			u.name,
 			u.gender,
 			u.location,
+			u.profile_picture_url,
 			DATE_PART('year', AGE(u.birth_date)) AS age
 		FROM users u
 		WHERE DATE_PART('year', AGE(u.birth_date)) <= ?

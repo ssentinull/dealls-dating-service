@@ -1,19 +1,21 @@
 package mapper
 
 import (
+	"github.com/go-openapi/strfmt"
 	"github.com/ssentinull/dealls-dating-service/internal/business/model"
 	"github.com/ssentinull/dealls-dating-service/internal/types"
 )
 
 func MapUserModelToUserType(src model.UserModel) *types.User {
 	return &types.User{
-		ID:        src.Id,
-		Email:     src.Email,
-		Name:      src.Name,
-		Gender:    types.Gender(src.Gender),
-		BirthDate: src.BirthDate.Format("02-01-2006"),
-		Location:  src.Location,
-		CreatedAt: types.CreatedAt(src.CreatedAt),
+		ID:                src.Id,
+		Email:             src.Email,
+		Name:              src.Name,
+		Gender:            types.Gender(src.Gender),
+		BirthDate:         src.BirthDate.Format("02-01-2006"),
+		Location:          src.Location,
+		ProfilePictureURL: strfmt.URI(src.ProfilePictureUrl),
+		CreatedAt:         types.CreatedAt(src.CreatedAt),
 	}
 }
 
@@ -37,11 +39,12 @@ func MapPreferenceModelToPreferenceType(src model.PreferenceModel) *types.Prefer
 
 func MapFeedModelToFeedType(src model.FeedModel) *types.Feed {
 	return &types.Feed{
-		ID:       src.Id,
-		Name:     src.Name,
-		Gender:   src.Gender,
-		Age:      src.Age,
-		Location: src.Location,
+		ID:                src.Id,
+		Name:              src.Name,
+		Gender:            src.Gender,
+		Age:               src.Age,
+		Location:          src.Location,
+		ProfilePictureURL: strfmt.URI(src.ProfilePictureUrl),
 	}
 }
 
