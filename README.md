@@ -153,6 +153,13 @@ Once you've install the prerequisite, follow these steps to start the service:
 
 ### Test The Service
 
-Once the service is running, you can open [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) to checkout the API documentation through Swagger UI. If you want to test the API, you can do so using the Swagger UI, or through [Postman](https://www.postman.com/) by importing the [collection file](https://github.com/ssentinull/dealls-dating-service/blob/master/postman-collection.json) located in the root directory.
+* The service has unit tests in place. Run the following command to execute the unit tests.
+    ```sh
+    $ make test
+    ```
+
+* Once the service is running, you can open [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) to checkout the API documentation through Swagger UI. 
+
+* If you want to test the APIs, you can do so using the Swagger UI, or through [Postman](https://www.postman.com/) by importing the [collection file](https://github.com/ssentinull/dealls-dating-service/blob/master/postman-collection.json) located in the root directory.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
